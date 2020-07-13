@@ -5,59 +5,63 @@ import sys
 currpath = str(os.getcwd())
 sys.path.append(currpath+"/../")
 
-from normalize_license_text.NormalizeClass import NormalizeText 
-
-normalized_output1 = 'data/Data_LicenseText/normalized_output1.py'
-normalized_output2 = 'data/Data_LicenseText/normalized_output2.py'
-
-
-def ReturnLicenseTextMatch(self,InputLicenseFile1,InputLicenseFile2):
-    x = NormalizeText()
-        
-    x.lowercase(InputLicenseFile1,'data/Data_LicenseText/normalized_output1.py')
-    x.lowercase(InputLicenseFile2,'data/Data_LicenseText/normalized_output2.py')
-        
-    x.equivalentwords('data/Data_LicenseText/normalized_output1.py')
-    x.equivalentwords('data/Data_LicenseText/normalized_output2.py')
-        
-    x.copyrightsymbol('data/Data_LicenseText/normalized_output1.py')
-    x.copyrightsymbol('data/Data_LicenseText/normalized_output2.py')
-
-    x.bullets_numbering('data/Data_LicenseText/normalized_output1.py')
-    x.bullets_numbering('data/Data_LicenseText/normalized_output2.py')
-        
-    x.punctuation('data/Data_LicenseText/normalized_output1.py')
-    x.punctuation('data/Data_LicenseText/normalized_output2.py')
-                
-    x.license_title('data/Data_LicenseText/normalized_output1.py')
-    x.license_title('data/Data_LicenseText/normalized_output2.py')
-        
-    x.remove_whitespace('data/Data_LicenseText/normalized_output1.py')
-    x.remove_whitespace('data/Data_LicenseText/normalized_output2.py')
-        
-    normalized_output1 = open('data/Data_LicenseText/normalized_output1.py', mode= 'rt', encoding= 'utf-8')
-    s1 = normalized_output1.read()
-
-    normalized_output2 = open('data/Data_LicenseText/normalized_output2.py', mode= 'rt', encoding= 'utf-8')
-    s2 = normalized_output2.read()
-        
-    if(s1==s2):
-        return True
-    else:
-        return False
-    
-    normalized_output1.close()
-    normalized_output2.close()
-
+from normalize_license_text.normalize_class import NormalizeText
+from normalize_license_text.compare_normalized_files import CompareNormalizedFiles
         
 class TestTwoLicenseTexts(unittest.TestCase):
+    def test_lowercase(self):
+        a = "This Is A Text"
+        b = "this is a text"
+        x = NormalizeText(a)
+        test1 = x.lowercase()
+        y = NormalizeText(b)
+        test2 = y.lowercase()
+        self.assertEqual(test1,test2)
         
-    def test_license_text(self):
-        FiledirA = currpath+"/data/Data_LicenseText/"
-        FiledirB = currpath+"/data/Data_LicenseText/"
-        self.assertTrue(ReturnLicenseTextMatch(self,FiledirA+"Adobe-2006.txt",FiledirB+"Adobe-2006_2.txt"))
-        self.assertTrue(ReturnLicenseTextMatch(self,FiledirA+"sleepycat.txt",FiledirB+"sleepycat_2.txt"))
-        self.assertTrue(ReturnLicenseTextMatch(self,FiledirA+"CERN-OHL.txt",FiledirB+"CERN-OHL_2.txt"))
+    def test_equivalent(self):
+        a = "I study analogue while "
+        b = "I study analog whilst "
+        x = NormalizeText(a)
+        test1 = x.equivalentwords(a)
+        y = NormalizeText(b)
+        test2 = y.equivalentwords(b)
+        self.assertEqual(test1,test2)
         
+    def test_copyrightsymbol(self):
+        c = "copyright"
+        d = "(c)"
+        x = NormalizeText(c)
+        test1 = x.copyrightsymbol(c)
+        y = NormalizeText(d)
+        test2 = y.copyrightsymbol(d)
+        self.assertEqual(test1,test2)
+        
+    def test_bullets(self):
+        a = "1. Hello. version 2.3"
+        b = "2. Hello. version 2.4"
+        x = NormalizeText(a)
+        test1 = x.bullets_numbering(a)
+        y = NormalizeText(b)
+        test2 = y.bullets_numbering(b)
+        self.assertFalse(CompareNormalizedFiles(test1,test2))
+        
+    def test_punctuation(self):
+        a = "a-b{} (ON)"
+        b = "a*b** *ON*"
+        x = NormalizeText(a)
+        test1 = x.punctuation(a)
+        y = NormalizeText(b)
+        test2 = y.punctuation(b)
+        self.assertTrue(CompareNormalizedFiles(test1,test2))
+        
+    def test_whitespace(self):
+        a = "Hello This is SPDX."
+        b = "Hello*This*is*SPDX."
+        x = NormalizeText(a)
+        test1 = x.remove_whitespace(a)
+        y = NormalizeText(b)
+        test2 = y.remove_whitespace(b)
+        self.assertTrue(CompareNormalizedFiles(test1,test2))
+
 if __name__ == '__main__':
     unittest.main()

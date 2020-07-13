@@ -11,5 +11,13 @@ Move the files in the normalize_license_text folder.
 
 Execute the command 
 ```bash
-./comparefiles.sh <File1> <File2>
+Python normalize.py <File1> <File2>
 ```
+
+## Tests
+
+In order to run tests, go to the Test directory and execute the command
+```python
+Python test_compare2license_texts.py
+```
+

@@ -55,12 +55,14 @@ class TestTwoLicenseTexts(unittest.TestCase):
         self.assertTrue(CompareNormalizedFiles(test1,test2))
         
     def test_whitespace(self):
-        a = "Hello This is SPDX."
+        a = "Hello     This is SPDX."
         b = "Hello*This*is*SPDX."
         x = NormalizeText(a)
         test1 = x.remove_whitespace(a)
         y = NormalizeText(b)
         test2 = y.remove_whitespace(b)
+        print(test1)
+        print(test2)
         self.assertTrue(CompareNormalizedFiles(test1,test2))
 
 if __name__ == '__main__':

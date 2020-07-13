@@ -29,6 +29,7 @@ try:
         inputfile.close()
         y = NormalizeText(inputstring)
         normalized_string2 = y.returnfinalstring()
+        print(normalized_string2)
 
 except IOError:
     print("There is no File named ", InputLicenseFile2)

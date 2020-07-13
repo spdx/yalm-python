@@ -99,11 +99,7 @@ class NormalizeText:
         the input file just becomes a single long string which is easier to match. """
         
         try:
-            normalized_string  = re.sub(r'\t',' ',normalized_string)
-            normalized_string  = re.sub(r'\r',' ',normalized_string)
-            normalized_string = re.sub(r'\n',' ',normalized_string)
-            normalized_string  = re.sub(r'\r','',normalized_string)
-            normalized_string = normalized_string.replace(" ","*")
+            normalized_string = re.sub(r'\s+','*',normalized_string)
             return normalized_string
         except IOError:
             print("This function could not run properly.")

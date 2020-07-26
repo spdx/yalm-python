@@ -40,6 +40,7 @@ except IOError:
     print("There is no File named ", normalized_template_string)
     
 a = NormalizeTemplate(normalized_text_string,normalized_template_string)
+a.normalize_template()
 normalized_text = a.return_normalized_text()
 normalized_template = a.return_normalized_template()
 

@@ -9,22 +9,32 @@ class NormalizeTemplate:
     def __init__(self,text_string,template_string):
         self.text_string = text_string
         self.template_string = template_string
-        self.remove_replaceable_text()
+                
+    def normalize_template(self):
+        self.remove_bulletted_text()
         self.remove_omitable_text()
         self.remove_repeating_chars()
     
     def return_normalized_template(self):
-        # print(self.template_string)
+        
+        """ Returns the Normalized template after normalization techniques. """
+        print(self.template_string)
         return self.template_string
     
     def return_normalized_text(self):
-        # print(self.text_string)
+        """ Returns the normalized text after normalization techniques. """
+        
+        print(self.text_string)
         return self.text_string
     
     def remove_omitable_text(self):
+        """ Removes text from the template and the text that is optional. So, the text 
+        which is optional and present matches and gets replaced by '' while the text that doesn't match will 
+        remain as it is thus giving an unmatch. """
+         
         lists = re.findall('(?<=\<\<beginoptional\>\>).*?(?=\<\<endoptional\>\>)',
                            self.template_string)
-        print(lists)
+        # print(lists)
         for x in lists:
             if(x.startswith('*')):
                 x = x[1:]
@@ -34,17 +44,21 @@ class NormalizeTemplate:
 
             self.text_string = self.text_string.replace(x,'')
             self.template_string = self.template_string.replace(x,'')
+        # print(lists)
         return
     
-    def remove_replaceable_text(self):
-        self.template_string = re.sub('(?<=\<\<var;).*?(?=\>\>)','',
+    def remove_bulletted_text(self):
+        """ The bulletted text is found in between the <var tags>. This method removes all the 
+        text containing var tags from the template. """ 
+        
+        self.template_string = re.sub('(?<=\<\<var;name\=\*bullet\*).*?(?=\>\>)','',
                                    self.template_string)
         return
         
     def remove_repeating_chars(self):
         self.template_string = self.template_string.replace('<<beginoptional>>','')
         self.template_string = self.template_string.replace('<<endoptional>>','')
-        self.template_string = re.sub('\<\<var;','',self.template_string)
+        self.template_string = re.sub('\<\<var;name\=\*bullet\*','',self.template_string)
         self.template_string = re.sub('\>\>','',self.template_string)
         self.template_string = re.sub(r'\*+','*',self.template_string)
         self.text_string = re.sub(r'\*+','*',self.text_string)

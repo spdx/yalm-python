@@ -13,11 +13,26 @@ Execute the command
 ```bash
 Python normalize.py <File1> <File2>
 ```
+## Compare a License and a Template
+License templates are implemented on the basis of the [SPDX License Matching Guidelines](https://spdx.dev/license-list/matching-guidelines/). In order to use the feature  of comparing a license text and a template-
+
+```bash
+cd compare_template_text/
+```
+```python
+python compare_template_text.py <TextFile> <TemplateFile>
+```
 
 ## Tests
 
-In order to run tests, go to the Test directory and execute the command
+In order to run tests, go to the Test directory and execute the commands-
+
+For Comparing 2 License Texts:
 ```python
-Python test_compare2license_texts.py
+python test_compare2license_texts.py
 ```
 
+For comparing a License Text and a Template:
+```python 
+python test_compare_template_text.py
+```

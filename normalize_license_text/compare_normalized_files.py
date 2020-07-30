@@ -5,7 +5,4 @@ from the normalize.py file resulting from the output of NormalizeText class' ret
 It returns the output of the result. """
 
 def CompareNormalizedFiles(a,b):
-    if(a==b):
-        return True
-    else:
-        return False
+    return a==b

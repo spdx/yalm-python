@@ -1,4 +1,5 @@
 import re
+import os
 import sys
 
 """ This is the main class responsible for Normalization of License Texts. It takes into 
@@ -59,8 +60,9 @@ class NormalizeText:
         version. 
         (1. ) will match while (1.) will not.
         """
+                            
         try:
-            normalized_string = re.sub(r'([0-9]+\.){2,}','',normalized_string)
+            normalized_string =   re.sub(r'([0-9]+\.){2,}','',normalized_string)
             normalized_string = re.sub(r'[0-9]+\.[\D]','',normalized_string)
             normalized_string = re.sub(r'^[a-z]\.','',normalized_string)
             normalized_string = re.sub(r'[a-z]\)','',normalized_string)
@@ -73,21 +75,14 @@ class NormalizeText:
 
     def punctuation(self,normalized_string):
         
+        punctuations = ['-','/','*','#','\'','\"','{','}',')','(']
         try:
-            normalized_string = normalized_string.replace('-','*')
-            normalized_string = normalized_string.replace('/','*')
-            normalized_string = normalized_string.replace('*','*')
-            normalized_string = normalized_string.replace('#','*')
-            normalized_string = normalized_string.replace('\'','*')
-            normalized_string = normalized_string.replace('\"','*')
-            normalized_string = normalized_string.replace('{','*')
-            normalized_string = normalized_string.replace('}','*')
-            normalized_string = normalized_string.replace(')','*')
-            normalized_string = normalized_string.replace('(','*')
+            for x in punctuations:
+                normalized_string = normalized_string.replace(x,'*')
             return normalized_string
         except IOError:
             print("This function could not run properly.")
-        
+                
     def license_title(self,normalized_string):
         
         normalized_string = re.sub(r'END OF TERMS AND CONDITIONS*','',normalized_string)

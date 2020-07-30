@@ -37,12 +37,14 @@ class TestTwoLicenseTexts(unittest.TestCase):
         self.assertEqual(test1,test2)
         
     def test_bullets(self):
-        a = "1. Hello. version 2.3"
-        b = "2. Hello. version 2.4"
+        a = "A. Hello. version 2.3"
+        b = "B. Hello. version 2.4"
         x = NormalizeText(a)
         test1 = x.bullets_numbering(a)
         y = NormalizeText(b)
         test2 = y.bullets_numbering(b)
+        print(test1)
+        print(test2)
         self.assertFalse(CompareNormalizedFiles(test1,test2))
         
     def test_punctuation(self):

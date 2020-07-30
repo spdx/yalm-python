@@ -37,6 +37,20 @@ class TestTemplateText(unittest.TestCase):
         normalized_text = test.return_normalized_text()
         normalized_template = test.return_normalized_template()
         self.assertTrue(CompareNormalizedFiles(normalized_text,normalized_template))
+        
+    def test_replaceable_text(self):
+        a = " <<var;name=\"copyright\";original=\"Hello This is a test.\";match=\".{0.20}\">> Test"
+        b = " Hello This is a test. Test"
+        x = NormalizeText(a)
+        stringtemplate = x.returnfinalstring()
+        y = NormalizeText(b)
+        stringtext = y.returnfinalstring()
+        test = NormalizeTemplate(stringtext, stringtemplate)
+        test.remove_repeating_chars()
+        test.remove_replaceable_text()
+        normalized_text = test.return_normalized_text()
+        normalized_template = test.return_normalized_template()
+        self.assertTrue(CompareNormalizedFiles(normalized_text,normalized_template))
 
 if __name__ == '__main__':
     unittest.main()

@@ -12,8 +12,8 @@ class NormalizeTemplate:
                 
     def normalize_template(self):
         self.remove_bulletted_text()
+        self.remove_replaceable_text()
         self.remove_omitable_text()
-        self.remove_repeating_chars()
     
     def return_normalized_template(self):
         
@@ -44,7 +44,9 @@ class NormalizeTemplate:
 
             self.text_string = self.text_string.replace(x,'')
             self.template_string = self.template_string.replace(x,'')
-        # print(lists)
+            self.template_string = self.template_string.replace('<<beginoptional>>','')
+            self.template_string = self.template_string.replace('<<endoptional>>','')
+            self.remove_repeating_chars()
         return
     
     def remove_bulletted_text(self):
@@ -53,13 +55,44 @@ class NormalizeTemplate:
         
         self.template_string = re.sub('(?<=\<\<var;name\=\*bullet\*).*?(?=\>\>)','',
                                    self.template_string)
+        self.template_string = re.sub('\<\<var;name=\*bullet.*?\>\>','',self.template_string)
+        self.remove_repeating_chars()
+        return
+    
+    def remove_replaceable_text(self):
+        """The Replaceable Text is found between the <<var copyright tags. This method removes all
+        the text between the original fields from the template and the text. """
+        
+        lists = re.findall('(?<=\<\<var;name=\*;original=).*?(?=;match=.*?\>\>)',
+                           self.template_string)
+        print(lists)
+        for x in lists:
+            if(x.startswith('*')):
+                x = x[1:]
+
+            if(x.endswith('*')):
+                x = x[:-1]
+
+            self.text_string = self.text_string.replace(x,'')
+            self.template_string = self.template_string.replace(x,'')
+            self.template_string = re.sub('\<\<var;name=.*?;original.*?;match.*?\>\>','',self.template_string)
+            self.remove_repeating_chars()
         return
         
     def remove_repeating_chars(self):
-        self.template_string = self.template_string.replace('<<beginoptional>>','')
-        self.template_string = self.template_string.replace('<<endoptional>>','')
-        self.template_string = re.sub('\<\<var;name\=\*bullet\*','',self.template_string)
-        self.template_string = re.sub('\>\>','',self.template_string)
         self.template_string = re.sub(r'\*+','*',self.template_string)
         self.text_string = re.sub(r'\*+','*',self.text_string)
         return 
+
+
+
+
+
+
+
+
+
+
+
+
+

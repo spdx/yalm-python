@@ -13,31 +13,29 @@ from normalize_template_text import NormalizeTemplate
 files as arguments and passes them along the Normalizing Text class before passing into Normalizing 
 Template class. """
 
-InputLicenseText = sys.argv[1]
-InputLicenseText = str(InputLicenseText)
+input_license_text = str(sys.argv[1])
 
-InputLicenseTemplate = sys.argv[2]
-InputLicenseTemplate = str(InputLicenseTemplate)
+input_license_template = str(sys.argv[2])
 
 try:
-    with open(InputLicenseText,'r') as inputfile:
+    with open(input_license_text,'r') as inputfile:
         input_text_string = inputfile.read()
         inputfile.close()
         x = NormalizeText(input_text_string)
         normalized_text_string = x.returnfinalstring()
 
 except IOError:
-    print("There is no file named ",InputLicenseText)
+    print("There is no file named ",input_license_text)
     
 try:
-    with open(InputLicenseTemplate,'r') as inputfile:
+    with open(input_license_template,'r') as inputfile:
         input_template_string = inputfile.read()
         inputfile.close()
         y = NormalizeText(input_template_string)
         normalized_template_string = y.returnfinalstring()
 
 except IOError:
-    print("There is no File named ", normalized_template_string)
+    print("There is no File named ", input_license_template)
     
 a = NormalizeTemplate(normalized_text_string,normalized_template_string)
 a.normalize_template()
@@ -49,3 +47,4 @@ if(CompareNormalizedFiles(normalized_text,normalized_template)==True):
     
 else:
     print("The Text and the Template do not Match.")
+

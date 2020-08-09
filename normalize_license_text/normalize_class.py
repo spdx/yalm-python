@@ -62,13 +62,19 @@ class NormalizeText:
         """
                             
         try:
-            normalized_string =   re.sub(r'([0-9]+\.){2,}','',normalized_string)
-            normalized_string = re.sub(r'[0-9]+\.[\D]','',normalized_string)
-            normalized_string = re.sub(r'^[a-z]\.','',normalized_string)
-            normalized_string = re.sub(r'[a-z]\)','',normalized_string)
-            normalized_string = re.sub(r'[0-9]\)','',normalized_string)
-            normalized_string = re.sub(r'^[A-Z]\.','',normalized_string)
-            normalized_string = re.sub(r'^[mdclxvi]+\.','',normalized_string)
+            regex_to_substitute = ['([0-9]+\.){2,}','[0-9]+\.[\D]','^[a-z]\.','[a-z]\)','[0-9]\)',
+                     '^[A-Z]\.','^[mdclxvi]+\.']
+            
+            for x in regex:
+                normalized_string = re.sub(x,'',normalized_string)
+                
+            # normalized_string =   re.sub(r'([0-9]+\.){2,}','',normalized_string)
+            # normalized_string = re.sub(r'[0-9]+\.[\D]','',normalized_string)
+            # normalized_string = re.sub(r'^[a-z]\.','',normalized_string)
+            # normalized_string = re.sub(r'[a-z]\)','',normalized_string)
+            # normalized_string = re.sub(r'[0-9]\)','',normalized_string)
+            # normalized_string = re.sub(r'^[A-Z]\.','',normalized_string)
+            # normalized_string = re.sub(r'^[mdclxvi]+\.','',normalized_string)
             return normalized_string
         except IOError:
             print("This function could not run properly.")
@@ -85,7 +91,7 @@ class NormalizeText:
                 
     def license_title(self,normalized_string):
         
-        normalized_string = re.sub(r'END OF TERMS AND CONDITIONS*','',normalized_string)
+        normalized_string = re.sub(r'end of terms and conditions*','',normalized_string)
         return normalized_string
         
     def remove_whitespace(self,normalized_string):

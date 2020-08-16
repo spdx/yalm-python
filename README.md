@@ -22,6 +22,8 @@ cd compare_template_text/
 ```python
 python compare_template_text.py <TextFile> <TemplateFile>
 ```
+## Compare a license Template against all other templates.
+..working on it.
 
 ## Tests
 

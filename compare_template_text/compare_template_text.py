@@ -42,9 +42,9 @@ a.normalize_template()
 normalized_text = a.return_normalized_text()
 normalized_template = a.return_normalized_template()
 
-if(CompareNormalizedFiles(normalized_text,normalized_template)==True):
+if(CompareNormalizedFiles(normalized_template,normalized_text)==True):
     print("The Text and the Template Match.")
     
 else:
     print("The Text and the Template do not Match.")
-
+    

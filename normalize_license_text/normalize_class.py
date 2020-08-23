@@ -16,7 +16,7 @@ class NormalizeText:
         normalized_string = self.lowercase()
         normalized_string = self.equivalentwords(normalized_string)
         normalized_string = self.copyrightsymbol(normalized_string)
-        normalized_string = self.bullets_numbering(normalized_string)
+        # normalized_string = self.bullets_numbering(normalized_string)
         normalized_string = self.punctuation(normalized_string)
         normalized_string = self.license_title(normalized_string)
         normalized_string = self.remove_whitespace(normalized_string)
@@ -65,10 +65,10 @@ class NormalizeText:
             regex_to_substitute = ['([0-9]+\.){2,}','[0-9]+\.[\D]','^[a-z]\.','[a-z]\)','[0-9]\)',
                      '^[A-Z]\.','^[mdclxvi]+\.']
             
-            for x in regex:
+            for x in regex_to_substitute:
                 normalized_string = re.sub(x,'',normalized_string)
                 
-            # normalized_string =   re.sub(r'([0-9]+\.){2,}','',normalized_string)
+            # normalized_string = re.sub(r'([0-9]+\.){2,}','',normalized_string)
             # normalized_string = re.sub(r'[0-9]+\.[\D]','',normalized_string)
             # normalized_string = re.sub(r'^[a-z]\.','',normalized_string)
             # normalized_string = re.sub(r'[a-z]\)','',normalized_string)
@@ -81,17 +81,25 @@ class NormalizeText:
 
     def punctuation(self,normalized_string):
         
-        punctuations = ['-','/','*','#','\'','\"','{','}',')','(']
+        punctuations = ['-','/','#','\'','\"','{','}',')','(','`']
+        normalized_string = normalized_string.replace('_','-')
+        normalized_string = normalized_string.replace('--','-')
+        normalized_string = re.sub(r'\*','\*',normalized_string)
+        
         try:
             for x in punctuations:
-                normalized_string = normalized_string.replace(x,'*')
+                normalized_string = normalized_string.replace(x,'`')
+            normalized_string = re.sub(r'\.(?=[a-z])','.`',normalized_string)
+            normalized_string = re.sub(r'\,(?=[a-z])','.`',normalized_string)
+            normalized_string = normalized_string + '`'
+            normalized_string = '`' + normalized_string
             return normalized_string
         except IOError:
             print("This function could not run properly.")
                 
     def license_title(self,normalized_string):
         
-        normalized_string = re.sub(r'end of terms and conditions*','',normalized_string)
+        normalized_string = re.sub(r'end of terms and conditions`','',normalized_string)
         return normalized_string
         
     def remove_whitespace(self,normalized_string):
@@ -100,7 +108,8 @@ class NormalizeText:
         the input file just becomes a single long string which is easier to match. """
         
         try:
-            normalized_string = re.sub(r'\s+','*',normalized_string)
+            normalized_string = re.sub(r'\s+','`',normalized_string)
+            normalized_string = re.sub(r'\`+','`',normalized_string)
             return normalized_string
         except IOError:
             print("This function could not run properly.")

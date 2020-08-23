@@ -1,7 +1,10 @@
 Adobe Systems Incorporated(r) Source Code License Agreement Copyright(c) 2006
 Adobe Systems Incorporated. All rights reserved.
+
 Please read this Source Code License Agreement carefully before using the
-source code.Adobe Systems Incorporated grants to you a perpetual, worldwide, non-exclusive,
+source code.
+
+Adobe Systems Incorporated grants to you a perpetual, worldwide, non-exclusive,
 no-charge, royalty-free, irrevocable copyright license, to reproduce, prepare
 derivative works of, publicly display, publicly perform, and distribute this
 source code and such derivative works in source or object code form without
@@ -23,5 +26,6 @@ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
 DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE>USE OF THIS SOURCE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE>   
+USE OF THIS SOURCE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 

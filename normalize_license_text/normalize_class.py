@@ -82,6 +82,10 @@ class NormalizeText:
     def punctuation(self,normalized_string):
         
         punctuations = ['-','/','#','\'','\"','{','}',')','(','`']
+        normalized_string = normalized_string.replace('*','`')
+        # punctuations = ['/','#','\'','\"','`']
+        normalized_string = normalized_string.replace('[','\[')
+        normalized_string = normalized_string.replace(']','\]')
         normalized_string = normalized_string.replace('_','-')
         normalized_string = normalized_string.replace('--','-')
         normalized_string = re.sub(r'\*','\*',normalized_string)

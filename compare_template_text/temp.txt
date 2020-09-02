@@ -1,3 +1,3 @@
  Defines the part <<beginoptional>> GO <<endoptional>> s
- <<var;name="";original="";match="3.">> hel.
- [2-4]
+ <<var;name="";original="";match="[2-4].">> hel.
+ 

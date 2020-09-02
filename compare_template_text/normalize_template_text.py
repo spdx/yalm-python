@@ -51,15 +51,15 @@ class NormalizeTemplate:
         self.remove_repeating_chars()           
         return
     
-    def remove_bulletted_text(self):
-        """ The bulletted text is found in between the <var tags>. This method removes all the 
-        text containing var tags from the template. """ 
+    # def remove_bulletted_text(self):
+    #     """ The bulletted text is found in between the <var tags>. This method removes all the 
+    #     text containing var tags from the template. """ 
         
-        self.template_string = re.sub('(?<=\<\<var;name\=\*bullet\*).*?(?=\>\>)','',
-                                   self.template_string)
-        self.template_string = re.sub('\<\<var;name=\*bullet.*?\>\>','',self.template_string)
-        self.remove_repeating_chars()
-        return
+    #     self.template_string = re.sub('(?<=\<\<var;name\=\*bullet\*).*?(?=\>\>)','',
+    #                                self.template_string)
+    #     self.template_string = re.sub('\<\<var;name=\*bullet.*?\>\>','',self.template_string)
+    #     self.remove_repeating_chars()
+    #     return
     
     def remove_replaceable_text(self):
         """The Replaceable Text is found between the <<var copyright tags. This method removes all
@@ -74,8 +74,8 @@ class NormalizeTemplate:
             if(x.endswith('`')):
                 x = x[:-1]
 
-            self.template_string = self.template_string.replace(x,'`('+match_regex+')`')
-            # print(self.template_string)
+            match_regex = match_regex.replace('\\','')
+            self.template_string = self.template_string.replace(x,'`'+match_regex+'`')
             self.remove_repeating_chars()
         return
         

@@ -16,7 +16,6 @@ class NormalizeText:
         normalized_string = self.lowercase()
         normalized_string = self.equivalentwords(normalized_string)
         normalized_string = self.copyrightsymbol(normalized_string)
-        # normalized_string = self.bullets_numbering(normalized_string)
         normalized_string = self.punctuation(normalized_string)
         normalized_string = self.license_title(normalized_string)
         normalized_string = self.remove_whitespace(normalized_string)
@@ -81,14 +80,9 @@ class NormalizeText:
 
     def punctuation(self,normalized_string):
         
-        punctuations = ['-','/','#','\'','\"','{','}',')','(','`']
-        normalized_string = normalized_string.replace('*','`')
-        # punctuations = ['/','#','\'','\"','`']
-        normalized_string = normalized_string.replace('[','\[')
-        normalized_string = normalized_string.replace(']','\]')
+        punctuations = ['/','#','\'','\"','`']
         normalized_string = normalized_string.replace('_','-')
         normalized_string = normalized_string.replace('--','-')
-        normalized_string = re.sub(r'\*','\*',normalized_string)
         
         try:
             for x in punctuations:

@@ -9,6 +9,7 @@ class NormalizeTemplate:
     def __init__(self,text_string,template_string):
         self.text_string = text_string
         self.template_string = template_string
+        self.template_string  = re.escape(self.template_string)
                 
     def normalize_template(self):
         self.remove_repeating_chars()

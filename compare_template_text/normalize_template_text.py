@@ -14,7 +14,6 @@ class NormalizeTemplate:
     def normalize_template(self):
         self.remove_repeating_chars()
         self.remove_omitable_text()
-        self.remove_repeating_chars()
         self.remove_replaceable_text()
     
     def return_normalized_template(self):
@@ -38,12 +37,12 @@ class NormalizeTemplate:
                            self.template_string)
         print(lists)
         for x in lists:
+            # match_omitable_text = re.search('(?<=<\<beginoptional\>\>).*?(?=\<\<endoptional\>\>)',x).group(0)
             if(x.startswith('`')):
                 x = x[1:]
 
             if(x.endswith('`')):
                 x = x[:-1]
-            # print(x)
             self.template_string = self.template_string.replace(x,'(`)?('+x+')?(`)?')
             self.remove_repeating_chars()
             
@@ -51,17 +50,7 @@ class NormalizeTemplate:
         self.template_string = re.sub(r'(`*)<<endoptional>>(`*)','',self.template_string)
         self.remove_repeating_chars()           
         return
-    
-    # def remove_bulletted_text(self):
-    #     """ The bulletted text is found in between the <var tags>. This method removes all the 
-    #     text containing var tags from the template. """ 
         
-    #     self.template_string = re.sub('(?<=\<\<var;name\=\*bullet\*).*?(?=\>\>)','',
-    #                                self.template_string)
-    #     self.template_string = re.sub('\<\<var;name=\*bullet.*?\>\>','',self.template_string)
-    #     self.remove_repeating_chars()
-    #     return
-    
     def remove_replaceable_text(self):
         """The Replaceable Text is found between the <<var copyright tags. This method removes all
         the text between the original fields from the template and the text. """
@@ -82,5 +71,4 @@ class NormalizeTemplate:
         
     def remove_repeating_chars(self):
         self.template_string = re.sub(r'`+','`',self.template_string)
-        self.text_string = re.sub(r'`+','`',self.text_string)
         return 

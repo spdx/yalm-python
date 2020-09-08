@@ -20,7 +20,7 @@ try:
         input_text_string = inputfile.read()
         inputfile.close()
         x = NormalizeText(input_text_string)
-        normalized_text_string = x.returnfinalstring()
+        normalized_text_string = x.returnfinalstring_for_template()
 
 except IOError:
     print("There is no file named ",input_license_text)
@@ -32,14 +32,13 @@ for filename in os.scandir(directory):
             input_template_file = input_file.read()
             input_file.close()
             object_normalization = NormalizeText(input_template_file)
-            input_template_file = object_normalization.returnfinalstring()
+            input_template_file = object_normalization.returnfinalstring_for_template()
             
             y = NormalizeTemplate(normalized_text_string, input_template_file)
             y.normalize_template()
             normalized_template_string = y.return_normalized_template()
-            # print(normalized_template_string)
-    except IOError:
-        print("There is no File named ", input_license_template)
+    except:
+        continue
         
     if(CompareNormalizedFiles(normalized_template_string,normalized_text_string)==True):
         print("The Text and the Template Match.")

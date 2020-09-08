@@ -16,10 +16,19 @@ class NormalizeText:
         normalized_string = self.lowercase()
         normalized_string = self.equivalentwords(normalized_string)
         normalized_string = self.copyrightsymbol(normalized_string)
+        normalized_string = self.bullets_numbering(normalized_string)
         normalized_string = self.punctuation(normalized_string)
         normalized_string = self.license_title(normalized_string)
         normalized_string = self.remove_whitespace(normalized_string)
         return normalized_string
+        
+    def returnfinalstring_for_template(self):
+        normalized_string_for_template = ''
+        normalized_string_for_template = self.lowercase()
+        normalized_string_for_template = self.equivalentwords(normalized_string_for_template)
+        normalized_string_for_template = self.punctuation(normalized_string_for_template)
+        normalized_string_for_template = self.remove_whitespace(normalized_string_for_template)
+        return normalized_string_for_template
         
     def lowercase(self):
         normalized_string = self.inputstring.lower()
@@ -67,28 +76,23 @@ class NormalizeText:
             for x in regex_to_substitute:
                 normalized_string = re.sub(x,'',normalized_string)
                 
-            # normalized_string = re.sub(r'([0-9]+\.){2,}','',normalized_string)
-            # normalized_string = re.sub(r'[0-9]+\.[\D]','',normalized_string)
-            # normalized_string = re.sub(r'^[a-z]\.','',normalized_string)
-            # normalized_string = re.sub(r'[a-z]\)','',normalized_string)
-            # normalized_string = re.sub(r'[0-9]\)','',normalized_string)
-            # normalized_string = re.sub(r'^[A-Z]\.','',normalized_string)
-            # normalized_string = re.sub(r'^[mdclxvi]+\.','',normalized_string)
             return normalized_string
         except IOError:
             print("This function could not run properly.")
 
     def punctuation(self,normalized_string):
         
-        punctuations = ['/','#','\'','\"','`']
+        punctuations = ['/','\'','\"','`']
         normalized_string = normalized_string.replace('_','-')
         normalized_string = normalized_string.replace('--','-')
         
         try:
             for x in punctuations:
                 normalized_string = normalized_string.replace(x,'`')
+                
             normalized_string = re.sub(r'\.(?=[a-z])','.`',normalized_string)
-            normalized_string = re.sub(r'\,(?=[a-z])','.`',normalized_string)
+            normalized_string = re.sub(r'\,(?=[a-z])',',`',normalized_string)
+            normalized_string = re.sub(r'\-(?=[a-z])','-`',normalized_string)
             normalized_string = normalized_string + '`'
             normalized_string = '`' + normalized_string
             return normalized_string

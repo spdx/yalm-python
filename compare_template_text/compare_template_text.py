@@ -22,7 +22,7 @@ try:
         input_text_string = inputfile.read()
         inputfile.close()
         x = NormalizeText(input_text_string)
-        normalized_text_string = x.returnfinalstring()
+        normalized_text_string = x.returnfinalstring_for_template()
 
 except IOError:
     print("There is no file named ",input_license_text)
@@ -32,7 +32,7 @@ try:
         input_template_string = inputfile.read()
         inputfile.close()
         y = NormalizeText(input_template_string)
-        normalized_template_string = y.returnfinalstring()
+        normalized_template_string = y.returnfinalstring_for_template()
 
 except IOError:
     print("There is no File named ", input_license_template)

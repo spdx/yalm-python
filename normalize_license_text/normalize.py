@@ -32,7 +32,7 @@ try:
 except IOError:
     print("There is no File named ", input_license_file2)
 
-if(CompareNormalizedFiles(normalized_string1,normalized_string2)==True):
+if(normalized_string1==normalized_string2):
     print("The Two License Texts match")
     
 else:

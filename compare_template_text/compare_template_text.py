@@ -1,6 +1,7 @@
 import re
 import os
 import sys
+import argparse
 
 currpath = str(os.getcwd())
 sys.path.append(currpath+"/../")
@@ -13,9 +14,28 @@ from normalize_template_text import NormalizeTemplate
 files as arguments and passes them along the Normalizing Text class before passing into Normalizing 
 Template class. """
 
-input_license_text = str(sys.argv[1])
+template_parser = argparse.ArgumentParser(description='The Template and the Text to match')
+template_parser.add_argument('Text',
+                       metavar='text',
+                       type=str,
+                       help='the path to text')
 
-input_license_template = str(sys.argv[2])
+template_parser.add_argument('Template',
+                       metavar='template',
+                       type=str,
+                       help='the path to template')
+
+args = template_parser.parse_args()
+input_license_template = args.Template
+input_license_text = args.Text
+
+if not os.path.exists(input_license_text):
+    print('The path for License Text specified does not exist')
+    sys.exit()
+
+if not os.path.exists(input_license_template):
+    print('The path for License Template specified does not exist')
+    sys.exit()
 
 try:
     with open(input_license_text,'r') as inputfile:

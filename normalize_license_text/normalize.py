@@ -1,12 +1,35 @@
+import os
 import re
 import sys
+import argparse
 
 from normalize_class import NormalizeText
 from compare_normalized_files import CompareNormalizedFiles
 
-input_license_file1 = str(sys.argv[1])
+text_parser = argparse.ArgumentParser(description='Match the Licese Texts')
 
-input_license_file2 = str(sys.argv[2])
+text_parser.add_argument('License_Text1',
+                       metavar='text',
+                       type=str,
+                       help='the path to text A')
+
+text_parser.add_argument('License_Text2',
+                       metavar='template',
+                       type=str,
+                       help='the path to template')
+
+args = text_parser.parse_args()
+input_license_file1 = args.License_Text1
+input_license_file2 = args.License_Text2
+
+if not os.path.exists(input_license_file1):
+    print('The path for License Text specified does not exist')
+    sys.exit()
+
+if not os.path.exists(input_license_file2):
+    print('The path for License Text specified does not exist')
+    sys.exit()
+
 
 """ This file executes the main functions of the NormalizeClass. """
 

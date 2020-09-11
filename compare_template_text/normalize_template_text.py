@@ -37,6 +37,10 @@ class NormalizeTemplate:
                            self.template_string)
         
         for x in lists:
+            """ match_regex will find the text within the optional tags. This has been done using
+            lookup and lookbehind rule in regex to match only the text proceeding <<endOptional>>
+            and succeeding <<beginoptional>>  """
+            
             match_regex = re.search('(?<=<<beginoptional>>).*?(?=<<endoptional>>)',x).group(0)
             if(match_regex.startswith('`')):
                 match_regex = match_regex[1:]
@@ -56,6 +60,9 @@ class NormalizeTemplate:
         lists = re.findall('`?<<var.*?>>`?', self.template_string)
         
         for x in lists:
+            """ match_regex contains the match pos in the template rule format. It will match the 
+            text only if its succeeding the match keyword and proceeding the ">>" end tags. """
+             
             match_regex = re.search('(?<=match=\`).*?(?=\`>>)',x).group(0)
             if(match_regex.startswith('`')):
                 match_regex = match_regex[1:]
@@ -63,6 +70,11 @@ class NormalizeTemplate:
             if(match_regex.endswith('`')):
                 match_regex = match_regex[:-1]
 
+            """ The '\' is required to be replaced because the match pos shouldn't contain any
+            escaped characters. The only escaped characters present in it are those which contain '\'
+            in the match pos. These characters are replaced with '@' to identify them and are later
+            converted back to '\' """
+              
             match_regex = match_regex.replace('\\','')
             match_regex = match_regex.replace('`','')
             self.template_string = self.template_string.replace(x,'`'+match_regex+'`')
@@ -73,6 +85,9 @@ class NormalizeTemplate:
             self.template_string = self.template_string.replace(x,'\\')
         return
         
+    """ This function is necessary for unnecessary piling up the '`' and the '`?' generated in 
+    the omitable_text and the replaceable_text function. """
+     
     def remove_repeating_chars(self):
         self.template_string = re.sub(r'`+','`',self.template_string)
         self.template_string = re.sub(r'(`\?)+','`?',self.template_string)

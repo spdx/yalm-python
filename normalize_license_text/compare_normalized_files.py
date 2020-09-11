@@ -1,12 +1,11 @@
 import sys
 import re
 
-"""This file finally checks and matches the normalized files passed onto it 
-from the normalize.py file resulting from the output of NormalizeText class' return function.
-It returns the output of the result. """
+"""This function matches the normalized text with the normalized template regex using 
+the match function. """
 
-def CompareNormalizedFiles(a,b):
-    if re.match(a,b):
+def CompareNormalizedFiles(normalized_template,normalized_text):
+    if re.match(normalized_template,normalized_text):
         return True
     else:
         return False

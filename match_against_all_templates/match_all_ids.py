@@ -1,5 +1,6 @@
 import os
 import sys
+import argparse
 
 currpath = str(os.getcwd())
 sys.path.append(currpath+"/../")
@@ -7,11 +8,18 @@ sys.path.append(currpath+"/../")
 from normalize_license_text.normalize_class import NormalizeText
 from compare_template_text.normalize_template_text import NormalizeTemplate
 from normalize_license_text.compare_normalized_files import CompareNormalizedFiles
-from data_templates import .
 
-input_license_text = str(sys.argv[1])
+all_template_parser = argparse.ArgumentParser(description='All Templates and the Text to match')
 
-directory = '/data_templates'
+all_template_parser.add_argument('License_Text',
+                       metavar='text',
+                       type=str,
+                       help='the path to text')
+
+args = all_template_parser.parse_args()
+input_license_text = args.License_Text
+
+directory = '../data_templates/'
 
 """This file on executing runs through all the License Templates and returns 
 the matched IDs. """
@@ -27,7 +35,10 @@ except IOError:
     print("There is no file named ",input_license_text)
 
 for filename in os.scandir(directory):
-    print(filename.path)
+    file_name = str(filename.path)
+    file_name = file_name.replace('../data_templates','')
+    # print(file_name)
+    
     try:
         with open(filename.path,'r') as input_file:
             input_template_file = input_file.read()
@@ -42,5 +53,4 @@ for filename in os.scandir(directory):
         continue
         
     if(CompareNormalizedFiles(normalized_template_string,normalized_text_string)==True):
-        print("The Text and the Template- "+ filename.path + " Match.")
-    
+        print("The Text and the Template- "+ file_name + " Match.")

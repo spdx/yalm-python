@@ -23,7 +23,19 @@ cd compare_template_text/
 python compare_template_text.py <TextFile> <TemplateFile>
 ```
 ## Compare a license Template against all other templates.
-..working on it.
+
+The match_against_all_templates folder implements matching of the input license text against all the data templates in the SPDX license data. To match a License Text against all the License Templates, do the following steps:
+
+```bash
+cp <License_Text_file> match_against_all_templates/
+```
+```bash
+cd match_against_all_templates/
+```
+
+```python
+python match_all_ids.py <License_Text_file>
+```
 
 ## Tests
 

@@ -2,9 +2,14 @@ import os
 import re
 import sys
 import argparse
+from pprint import pprint
+
+currpath = str(os.getcwd())
+sys.path.append(currpath+"/../")
 
 from normalize_class import NormalizeText
 from compare_normalized_files import CompareNormalizedFiles
+from generate_differences.differences import Generate_Differences
 
 text_parser = argparse.ArgumentParser(description='Match the Licese Texts')
 
@@ -39,7 +44,7 @@ try:
         inputfile.close()
         x = NormalizeText(inputstring)
         normalized_string1 = x.returnfinalstring()
-        print(normalized_string1)
+        # print(normalized_string1)
 
 except IOError:
     print("There is no file named ",InputLicenseFile)
@@ -50,7 +55,7 @@ try:
         inputfile.close()
         y = NormalizeText(inputstring)
         normalized_string2 = y.returnfinalstring()
-        print(normalized_string2)
+        # print(normalized_string2)
 
 except IOError:
     print("There is no File named ", input_license_file2)
@@ -60,3 +65,6 @@ if(normalized_string1==normalized_string2):
     
 else:
     print("The Two License Texts do not match.")
+    compare_object = Generate_Differences(normalized_string1,normalized_string2)
+    differences = compare_object.pretty_print_differences()
+    pprint(differences)

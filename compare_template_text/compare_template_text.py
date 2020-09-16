@@ -2,6 +2,7 @@ import re
 import os
 import sys
 import argparse
+from pprint import pprint
 
 currpath = str(os.getcwd())
 sys.path.append(currpath+"/../")
@@ -9,6 +10,7 @@ sys.path.append(currpath+"/../")
 from normalize_license_text.normalize_class import NormalizeText
 from normalize_license_text.compare_normalized_files import CompareNormalizedFiles
 from normalize_template_text import NormalizeTemplate
+from generate_differences.differences import Generate_Differences
 
 """ This file is the main execution file for comparing License Texts and Templates. It takes into the
 files as arguments and passes them along the Normalizing Text class before passing into Normalizing 
@@ -66,5 +68,12 @@ if(CompareNormalizedFiles(normalized_template,normalized_text)==True):
     print("The Text and the Template Match.")
     
 else:
-    print("The Text and the Template do not Match.")
+    nl = "\n"
+    print(f"The Text and the Template do not Match.{nl}"
+          f"Following text produces a mismatch{nl}"
+          )
+    compare_object = Generate_Differences(normalized_template,normalized_text)
+    differences = compare_object.pretty_print_differences()
+    pprint(differences)
+
     

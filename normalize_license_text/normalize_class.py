@@ -2,10 +2,15 @@ import re
 import os
 import sys
 
+from configuration.config import PACKAGE_PATH
+from generate_differences.differences import Generate_Differences
+
 """ This is the main class responsible for Normalization of License Texts. It takes into 
 account the case of the text, punctuations, copyright symbols and whitespaces. The Class mainly
 takes as input argument a string and normalizes into an output normalized_string. """ 
 
+equivalent_words_file = PACKAGE_PATH + "/resources/equivalentwords.txt"
+    
 class NormalizeText:
     
     def __init__(self,inputstring):
@@ -36,7 +41,7 @@ class NormalizeText:
         
     def equivalentwords(self,normalized_string):
         try:
-            equivalentfile = open("equivalentwords.txt","r")
+            equivalentfile = open(equivalent_words_file,"r")
             for word in equivalentfile.readlines():
                 splitwords = word.split(',')
                 wordtoreplace = splitwords[0]

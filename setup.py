@@ -22,21 +22,21 @@ setup(
     include_package_data = True,
     zip_safe=False,
     test_suite='setup.test_suite',
-    # install_requires=[
-    #     're',
-    #     'argparse',
-    #     'pprint',
-    #     'pathlib',
-    #     'difflib',
-    # ],
-    # python_requires='>=3.5',
+    install_requires=[
+        're',
+        'argparse',
+        'pprint',
+        'pathlib',
+        'difflib',
+    ],
+    python_requires='>=3.5',
     author='Anshul Dutt Sharma',
     author_email='anshuldutt21@gmail.com',
     url='https://github.com/anshuldutt21/spdx_python_licensematching',
-    # license='',
-    # classifiers=[
-    #     'Intended Audience :: Developers',
-    #     'License',
-    #     'Programming Language :: Python :: 3.7.5'
-    # ]
+    license='Apache-2.0',
+    classifiers=[
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python :: 3.7.5'
+    ]
 )

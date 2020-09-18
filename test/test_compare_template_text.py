@@ -2,14 +2,12 @@ import unittest
 import os
 import sys
 
-currpath = str(os.getcwd())
-sys.path.append(currpath+"/../")
-
-from normalize_license_text.compare_normalized_files import CompareNormalizedFiles
+from compare_template_text.compare_normalized_files import CompareNormalizedFiles
 from compare_template_text.normalize_template_text import NormalizeTemplate
 from normalize_license_text.normalize_class import NormalizeText
 
 class TestTemplateText(unittest.TestCase):
+    
     def test_omitable_text(self):
         a = "<<beginOptional>>Hello I am a Test.<<endOptional>>"
         b = "Hello I am a Test."

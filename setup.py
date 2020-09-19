@@ -22,13 +22,6 @@ setup(
     include_package_data = True,
     zip_safe=False,
     test_suite='setup.test_suite',
-    install_requires=[
-        're',
-        'argparse',
-        'pprint',
-        'pathlib',
-        'difflib',
-    ],
     python_requires='>=3.5',
     author='Anshul Dutt Sharma',
     author_email='anshuldutt21@gmail.com',

@@ -1,1 +1,1 @@
-from config import PACKAGE_PAT
+from configuration.config import PACKAGE_PATH

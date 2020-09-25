@@ -26,7 +26,7 @@ def main():
     for filename in os.scandir(directory):
         file_name = str(filename.path)
         file_name = file_name.replace(str(directory), '')
-        print(file_name)
+        # print(file_name)
 
         try:
             with open(filename.path, 'r') as input_file:
@@ -36,9 +36,11 @@ def main():
                 input_template_file = object_normalization.returnfinalstring_for_template()
 
                 y = NormalizeTemplate(
-                    normalized_text_string, input_template_file)
+                    normalized_text_string, input_template_file
+                    )
                 y.normalize_template()
                 normalized_template_string = y.return_normalized_template()
+                normalized_text_string = y.return_normalized_text()
         except BaseException:
             continue
 

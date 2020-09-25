@@ -50,9 +50,9 @@ if __name__ == "__main__":
                              help='the path to text A')
 
     text_parser.add_argument('License_Text2',
-                             metavar='template',
+                             metavar='text',
                              type=str,
-                             help='the path to template')
+                             help='the path to License Text B')
 
     args = text_parser.parse_args()
 

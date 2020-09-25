@@ -1,6 +1,4 @@
 import unittest
-import os
-import sys
 
 from compare_template_text.compare_normalized_files import CompareNormalizedFiles
 from compare_template_text.normalize_template_text import NormalizeTemplate

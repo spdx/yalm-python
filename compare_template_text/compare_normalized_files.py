@@ -1,4 +1,3 @@
-import sys
 import re
 
 def CompareNormalizedFiles(normalized_template, normalized_text):

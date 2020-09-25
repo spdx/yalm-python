@@ -1,6 +1,4 @@
 import re
-import os
-import sys
 
 from configuration.config import PACKAGE_PATH
 

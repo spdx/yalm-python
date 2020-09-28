@@ -25,6 +25,26 @@ cd spdx_python_licensematching
 pip install -e .
 ```
 
+# Examples
+
+There are some examples for how to use the code in the examples folder in the directory. Go to the Folder and run the following files to see the output.
+
+```python
+python compare_license_texts.py
+```
+
+This file will compare any 2 sample texts which can be passed into the module and return the output.
+
+```python
+python compare_license_template_text.py
+```
+This file parses the sample text and the template provided in the example and matches them producing the desired output.
+
+```python
+python compare_all_ids.py
+```
+This file parses the sample text and matches it against all the license ids and returns matched licenses.
+
 # How To Use
 
 ## Match 2 License Texts

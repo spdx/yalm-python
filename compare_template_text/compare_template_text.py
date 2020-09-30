@@ -73,8 +73,8 @@ if __name__ == "__main__":
 
     args = template_parser.parse_args()
 
-    input_license_template = Template_Directory + str(args.Template)
-    input_license_text = Text_Directory + str(args.Text)
+    input_license_template = str(args.Template)
+    input_license_text = str(args.Text)
 
     if not os.path.exists(input_license_text):
         print(

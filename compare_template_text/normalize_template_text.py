@@ -21,7 +21,6 @@ class NormalizeTemplate:
         """ 
         Returns the Normalized template after normalization techniques. 
         """
-        # print(self.template_string)
         return self.template_string
     
     def return_normalized_text(self):

@@ -8,8 +8,6 @@ from normalize_class import NormalizeText
 from generate_differences.differences import Generate_Differences
 from configuration.config import PACKAGE_PATH
 
-Text_Directory = PACKAGE_PATH + "/normalize_license_text/input_text_files/"
-
 
 def main():
     """
@@ -56,8 +54,8 @@ if __name__ == "__main__":
 
     args = text_parser.parse_args()
 
-    input_license_file1 = Text_Directory + str(args.License_Text1)
-    input_license_file2 = Text_Directory + str(args.License_Text2)
+    input_license_file1 = str(args.License_Text1)
+    input_license_file2 = str(args.License_Text2)
 
     if not os.path.exists(input_license_file1):
         print(

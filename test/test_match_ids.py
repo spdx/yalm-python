@@ -46,7 +46,7 @@ class TestAllTexts(unittest.TestCase):
 
             if(CompareNormalizedFiles(normalized_template_string, normalized_text_string)):
                 list_of_matches.append(file_name)
-                print("The Text and the Template- " + file_name + " Match.")
+                print("The Text matches with the Template- " + file_name)
                 
         self.assertCountEqual(list_of_matches,matches_list)
 

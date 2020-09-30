@@ -8,7 +8,7 @@ from normalize_license_text.normalize_class import NormalizeText
 from compare_template_text.normalize_template_text import NormalizeTemplate
 from compare_template_text.compare_normalized_files import CompareNormalizedFiles
 
-Text_Directory = PACKAGE_PATH + "/match_against_all_templates/input_text_files/"
+Text_Directory = PACKAGE_PATH
 
 
 def main():
@@ -26,7 +26,6 @@ def main():
     for filename in os.scandir(directory):
         file_name = str(filename.path)
         file_name = file_name.replace(str(directory), '')
-        # print(file_name)
 
         try:
             with open(filename.path, 'r') as input_file:
@@ -48,7 +47,7 @@ def main():
             normalized_template_string, normalized_text_string
         )):
 
-            print("The Text and the Template- " + file_name + " Match.")
+            print("The Text matches with the Template- " + file_name)
 
 
 if __name__ == "__main__":
@@ -64,7 +63,7 @@ if __name__ == "__main__":
 
     args = all_template_parser.parse_args()
 
-    input_license_text = Text_Directory + str(args.License_Text)
+    input_license_text = str(args.License_Text)
 
     directory = PACKAGE_PATH + '/data/templates/'
 

@@ -46,5 +46,5 @@ if __name__ == '__main__':
             normalized_template_string, normalized_text_string
         )):
 
-            print("The Text and the Template- " + file_name + " Match.")
+            print("The Text matches with the Template- " + file_name)
 

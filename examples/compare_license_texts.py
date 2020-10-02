@@ -17,7 +17,7 @@ if __name__ == '__main__':
     stringtext = object_b.returnfinalstring()
     
     if(stringtemplate==stringtext):
-        print("The License Text" +b+ " matches with the Text "+a)
+        print("The License Text \" " +b+ "\" matches with the Text \""+a+" \" ")
     else:
         nl = "\n"
         print(f"The Texts do not Match.{nl}"

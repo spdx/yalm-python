@@ -21,7 +21,7 @@ if __name__ == '__main__':
     normalized_text = test.return_normalized_text()
     normalized_template = test.return_normalized_template()
     if(CompareNormalizedFiles(normalized_template,normalized_text)):
-        print("The License Text" +b+ " matches with the Template "+a)
+        print("The License Text \" " +b+ " \" matches with the Template \" "+a+" \" ")
     else:
         nl = "\n"
         print(f"The Text and the Template do not Match.{nl}"

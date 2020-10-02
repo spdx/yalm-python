@@ -1,6 +1,8 @@
 # SPDX Python Library for LicenseMatching
 A Python Library to implement SPDX License Matching. This Project is a result of CommunityBridge Linux Foundation 2020 contribution by [@anshuldutt21](https://github.com/anshuldutt21/).
 
+Python : Version>=3.7
+
 Home: https://github.com/anshuldutt21/spdx_python_licensematching/
 
 Issues: https://github.com/anshuldutt21/spdx_python_licensematching/issues
@@ -50,8 +52,6 @@ This file parses the sample text and matches it against all the license ids and 
 ## Compare 2 License Texts
 License Texts are matched based on the [SPDX License Matching Guidelines](https://spdx.dev/license-list/matching-guidelines/). In order to implement License Matching between 2 License Texts, do the following steps.
 
-Input all the Text Files you want to match anywhere in the file system.
-
 To match  TextFile_A and TextFile_B execute the file normalize.py in the following way.
 
 ```python
@@ -61,8 +61,6 @@ After this step you would get an output depicting whether the license Textfiles 
 
 ## Compare a License Text with a License Template
 License templates are implemented on the basis of the [SPDX License Matching Guidelines](https://spdx.dev/license-list/matching-guidelines/). In order to use the feature  of comparing a license text and a template, do the following steps.
-
-Input all the Text Files and the Template files anywhere in the file system.
 
 To match TextFile_A and TemplateFile_A execute the file compare_normalized_files.py in the following way.
 
@@ -75,8 +73,6 @@ After this step you would get an output depicting whether the license Textfiles 
 ## Compare a license Text against all License templates.
 
 The match_against_all_templates folder implements matching of the input license text against all the data templates in the SPDX license data. To match a License Text against all the License Templates, do the following steps:
-
-Input all the Text Files you want to match anywhere in the file system.
 
 To match TextFile_A against all templates execute the file match_all_ids.py.py in the following way.
 

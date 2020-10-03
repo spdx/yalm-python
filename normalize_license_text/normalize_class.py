@@ -6,7 +6,6 @@ from generate_differences.differences import Generate_Differences
 
 equivalent_words_file = PACKAGE_PATH + "/resources/equivalentwords.txt"
 
-
 class NormalizeText:
     """
     This is the main class responsible for Normalization of License Texts. 

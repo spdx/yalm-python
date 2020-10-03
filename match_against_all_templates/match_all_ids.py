@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import os
-import sys
 import argparse
 
 from configuration.config import PACKAGE_PATH

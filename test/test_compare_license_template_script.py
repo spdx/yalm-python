@@ -1,6 +1,5 @@
 import unittest
 import os
-import sys
 
 from normalize_license_text.normalize_class import NormalizeText
 from configuration.config import PACKAGE_PATH

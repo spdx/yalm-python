@@ -3,8 +3,6 @@
 # Parses License Texts passed into them and compare them against all the License ids. 
 
 import os
-import sys
-import argparse
 
 from configuration.config import PACKAGE_PATH
 

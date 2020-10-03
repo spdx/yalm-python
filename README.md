@@ -19,7 +19,11 @@ Issues: https://github.com/anshuldutt21/spdx_python_licensematching/issues
 
 # Installation
 
-As always you should work in a virtualenv or venv. Do the following steps to setup the Python Package in your system.
+As always you should work in a virtualenv or venv. Setup a python virtual environment by this command.
+```bash
+virtualenv venv -p python3.7
+```
+Do the following steps to setup the Python Package in your system.
 
 ```bash
 git clone https://github.com/anshuldutt21/spdx_python_licensematching.git
@@ -29,7 +33,7 @@ pip install -e .
 
 # Examples
 
-There are some examples for how to use the code in the examples folder in the directory. Go to the Folder and run the following files to see the output.
+There are some examples for how to use the code in the examples folder in the directory. Go to the examples/ and run the following files to see the output.
 
 ```python
 python compare_license_texts.py

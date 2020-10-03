@@ -18,6 +18,8 @@ setup(
                                       'resources.*',
                                       'test.*',
                                       'configuration.*',
+                                      'examples.*',
+                                      'match_against_all_templates'
                                       ]),
     include_package_data = True,
     zip_safe=False,

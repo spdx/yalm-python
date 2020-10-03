@@ -2,7 +2,6 @@
 
 import re
 import os
-import sys
 import argparse
 from pprint import pprint
 

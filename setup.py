@@ -1,11 +1,16 @@
+import os
+
 from setuptools import setup, find_packages
 import unittest
 
 def test_suite():
     return unittest.TestLoader().discover('test',pattern='test_*.py')
 
-with open('README.md', 'r') as fh:
-    long_description = fh.read()
+_ROOT = os.path.abspath(os.path.dirname(__file__))
+print(_ROOT)
+
+with open(os.path.join(_ROOT, 'README.md')) as f:
+    long_description = f.read()
 
 setup(
     name = 'spdx_python_licensematching',

@@ -15,7 +15,7 @@ include LICENSE
 include __init__.py
 include MANIFEST.in
 include setup.py
-include config.py
+include configuration/config.py
 include .gitignore
 
 global-exclude *.py[co] __pycache__ *.*~

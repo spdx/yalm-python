@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import re
 import os
 import argparse
@@ -11,10 +9,6 @@ from normalize_license_text.normalize_class import NormalizeText
 from compare_normalized_files import CompareNormalizedFiles
 from normalize_template_text import NormalizeTemplate
 from generate_differences.differences import Generate_Differences
-
-Text_Directory = PACKAGE_PATH + "/compare_template_text/input_text_files/"
-Template_Directory = PACKAGE_PATH + "/compare_template_text/input_template_files/"
-
 
 def main():
     """

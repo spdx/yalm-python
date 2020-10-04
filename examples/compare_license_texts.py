@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 
 # Parses Two License Text Strings passed into them 
 

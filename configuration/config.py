@@ -1,4 +1,4 @@
 import os
 from pathlib import Path
 
-PACKAGE_PATH = str(Path.home()) + "/spdx_python_licensematching"
+PACKAGE_PATH = str(os.environ['HOME']) + "/spdx_python_licensematching"

@@ -12,12 +12,13 @@ setup(
     version = '1.0',
     description = 'SPDX Implementation of License Matching Guidelines in Python',
     long_description = long_description,
-    packages = find_packages(include=['normalize_license_text.*',
+    packages = find_packages(include=[
+                                      'configuration.*',
+                                      'normalize_license_text.*',
                                       'compare_template_text.*',
                                       'generate_differences.*',
                                       'resources.*',
                                       'test.*',
-                                      'configuration.*',
                                       'examples.*',
                                       'match_against_all_templates'
                                       ]),

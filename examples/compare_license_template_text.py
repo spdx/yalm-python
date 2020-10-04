@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # Parses License Text and Template Strings passed into them and compare them 
 
 if __name__ == '__main__':

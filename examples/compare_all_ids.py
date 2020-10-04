@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # Parses License Texts passed into them and compare them against all the License ids. 
 
 import os

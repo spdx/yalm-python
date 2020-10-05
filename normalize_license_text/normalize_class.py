@@ -78,7 +78,7 @@ class NormalizeText:
                     wordreplaced, wordtoreplace, normalized_string)
             equivalentfile.close()
             return normalized_string
-        except:
+        except (NameError):
             print("There was some problem with accessing the equivalent words file.")
 
     def copyrightsymbol(self, normalized_string):
@@ -91,7 +91,7 @@ class NormalizeText:
             normalized_string = normalized_string.replace("copyright", '')
             normalized_string = normalized_string.replace('(c)', '')
             return normalized_string
-        except:
+        except(NameError):
             print("There was some problem with accessing the equivalent words file.")
 
     def bullets_numbering(self, normalized_string):

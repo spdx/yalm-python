@@ -7,7 +7,6 @@ def test_suite():
     return unittest.TestLoader().discover('test',pattern='test_*.py')
 
 _ROOT = os.path.abspath(os.path.dirname(__file__))
-print(_ROOT)
 
 with open(os.path.join(_ROOT, 'README.md')) as f:
     long_description = f.read()

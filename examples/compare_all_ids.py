@@ -1,6 +1,7 @@
 # Parses License Texts passed into them and compare them against all the License ids. 
 
 import os
+from pathlib import Path
 
 from configuration.config import PACKAGE_PATH
 
@@ -8,8 +9,11 @@ from normalize_license_text.normalize_class import NormalizeText
 from compare_template_text.normalize_template_text import NormalizeTemplate
 from compare_template_text.compare_normalized_files import CompareNormalizedFiles
 
-Text_Directory = PACKAGE_PATH + "/match_against_all_templates/input_text_files/"
-directory = PACKAGE_PATH + '/data/templates/'
+Text_Directory = str(Path(PACKAGE_PATH + "\\match_against_all_templates\\input_text_files\\"))
+Text_Directory = Text_Directory.replace('\\',os.sep)
+
+directory = str(Path(PACKAGE_PATH + '\\data\\templates\\'))
+directory = directory.replace('\\',os.sep)
 
 if __name__ == '__main__':
     a = "Any Sample Text passed into Module"

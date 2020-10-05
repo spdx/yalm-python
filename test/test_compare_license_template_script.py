@@ -1,17 +1,20 @@
 import unittest
 import os
+from pathlib import Path
 
 from normalize_license_text.normalize_class import NormalizeText
 from configuration.config import PACKAGE_PATH
 from compare_template_text.normalize_template_text import NormalizeTemplate
 from compare_template_text.compare_normalized_files import CompareNormalizedFiles
 
-input_text = PACKAGE_PATH + "/test/data/OBSD.txt"
-input_text_mismatch = PACKAGE_PATH + "/test/data/OBSD3.txt"
+input_text = str(Path(PACKAGE_PATH + "\\test\\data\\OBSD.txt"))
+input_text = input_text.replace('\\',os.sep)
 
-input_template = PACKAGE_PATH + "/test/data/OBSD_template.txt"
-directory = PACKAGE_PATH + "/data/templates/"
+input_text_mismatch = str(Path(PACKAGE_PATH + "\\test\\data\\OBSD3.txt"))
+input_text_mismatch = input_text_mismatch.replace('\\',os.sep)
 
+input_template = str(Path(PACKAGE_PATH + "\\test\\data\\OBSD_template.txt"))
+input_template = input_template.replace('\\',os.sep)
 
 class TestAllTexts(unittest.TestCase):
     def test_template_match(self):

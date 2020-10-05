@@ -1,10 +1,13 @@
+import os
 import re
+from pathlib import Path, PureWindowsPath
 
 from configuration.config import PACKAGE_PATH
 
 from generate_differences.differences import Generate_Differences
 
-equivalent_words_file = PACKAGE_PATH + "/resources/equivalentwords.txt"
+equivalent_words_file = str(PACKAGE_PATH +"\\resources\\equivalentwords.txt")
+equivalent_words_file = equivalent_words_file.replace('\\',os.sep)
 
 class NormalizeText:
     """

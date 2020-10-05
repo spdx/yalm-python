@@ -1,14 +1,14 @@
 import unittest
 import os
+from pathlib import Path, PureWindowsPath
 
 from normalize_license_text.normalize_class import NormalizeText
 from configuration.config import PACKAGE_PATH
 from compare_template_text.normalize_template_text import NormalizeTemplate
 from compare_template_text.compare_normalized_files import CompareNormalizedFiles
 
-input_text = PACKAGE_PATH + "/test/data/test_all_ids.txt"
-directory = PACKAGE_PATH + "/data/templates/"
-
+input_text = Path(PACKAGE_PATH + "/test/data/test_all_ids.txt")
+directory = Path(PACKAGE_PATH + "/data/templates/")
 
 class TestAllTexts(unittest.TestCase):
     def test_main_script(self):
@@ -24,6 +24,8 @@ class TestAllTexts(unittest.TestCase):
         for filename in os.scandir(directory):
             file_name = str(filename.path)
             file_name = file_name.replace(str(directory), '')
+            file_name = file_name.replace('\\', '')
+            file_name = file_name.replace('/', '')
             print(file_name)
 
             try:

@@ -2,6 +2,7 @@
 
 import os
 import argparse
+from pathlib import Path
 
 from configuration.config import PACKAGE_PATH
 
@@ -9,7 +10,7 @@ from normalize_license_text.normalize_class import NormalizeText
 from compare_template_text.normalize_template_text import NormalizeTemplate
 from compare_template_text.compare_normalized_files import CompareNormalizedFiles
 
-Text_Directory = PACKAGE_PATH
+Text_Directory = Path(PACKAGE_PATH)
 
 
 def main():
@@ -66,7 +67,8 @@ if __name__ == "__main__":
 
     input_license_text = str(args.License_Text)
 
-    directory = PACKAGE_PATH + '/data/templates/'
+    directory = str(Path(PACKAGE_PATH + '\\data\\templates\\'))
+    directory = directory.replace('\\',os.sep)
 
     if not os.path.exists(input_license_text):
         print(

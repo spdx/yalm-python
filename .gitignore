@@ -1,3 +1,35 @@
 normalize_license_text/__pycache__/
 compare_template_text/__pycache__/
 *.pyc
+
+__pycache__/
+*.py[cod]
+*.out
+/build/
+/dist/
+/tmp/
+/.cache/
+
+venv*
+
+# virtualenv
+/bin
+/lib
+/Lib
+/local
+/local/
+/.eggs/
+*.egg-info/
+/Include
+/include
+/pip-selfcheck.json
+.Python
+/share/
+
+# IDEs
+.project
+.pydevproject
+.idea
+org.eclipse.core.resources.prefs
+.vscode
+.pytest_cache

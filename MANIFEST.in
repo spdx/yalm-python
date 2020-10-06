@@ -1,0 +1,21 @@
+graft data
+graft examples
+graft normalize_license_text
+graft compare_template_text
+graft generate_differences
+graft resources
+graft configuration
+graft match_against_all_templates
+graft test
+
+prune spdx_python_licensematching.egg-info
+
+include README.md
+include LICENSE
+include __init__.py
+include MANIFEST.in
+include setup.py
+include configuration/config.py
+include .gitignore
+
+global-exclude *.py[co] __pycache__ *.*~

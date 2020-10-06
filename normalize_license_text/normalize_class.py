@@ -78,8 +78,9 @@ class NormalizeText:
                     wordreplaced, wordtoreplace, normalized_string)
             equivalentfile.close()
             return normalized_string
-        except (NameError):
-            print("There was some problem with accessing the equivalent words file.")
+        except:
+            raise Exception("There was some problem with accessing the equivalent words file." 
+                            "The Path is incorrect")
 
     def copyrightsymbol(self, normalized_string):
         """
@@ -91,8 +92,9 @@ class NormalizeText:
             normalized_string = normalized_string.replace("copyright", '')
             normalized_string = normalized_string.replace('(c)', '')
             return normalized_string
-        except(NameError):
-            print("There was some problem with accessing the equivalent words file.")
+        except:
+            raise Exception("There was some problem with accessing the equivalent words file." 
+                            "The Path is incorrect")
 
     def bullets_numbering(self, normalized_string):
         """
@@ -117,8 +119,8 @@ class NormalizeText:
                 normalized_string = re.sub(x, '', normalized_string)
 
             return normalized_string
-        except IOError:
-            print("This function could not run properly.")
+        except:
+            raise Exception("The function bullets and numbering could not run properly.")
 
     def punctuation(self, normalized_string):
         """
@@ -140,8 +142,8 @@ class NormalizeText:
             normalized_string = normalized_string + '`'
             normalized_string = '`' + normalized_string
             return normalized_string
-        except IOError:
-            print("This function could not run properly.")
+        except:
+            raise Exception("This function could not run properly.")
 
     def license_title(self, normalized_string):
 
@@ -160,5 +162,5 @@ class NormalizeText:
             normalized_string = re.sub(r'\s+', '`', normalized_string)
             normalized_string = re.sub(r'\`+', '`', normalized_string)
             return normalized_string
-        except IOError:
-            print("This function could not run properly.")
+        except:
+            raise Exception("This function could not run properly.")

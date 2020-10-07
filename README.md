@@ -19,15 +19,24 @@ Issues: https://github.com/anshuldutt21/spdx_python_licensematching/issues
 
 # Installation
 
+Clone the repository
+```bash
+git clone https://github.com/anshuldutt21/spdx_python_licensematching.git
+```
+Go to the directory
+```bash
+cd spdx_python_licensematching
+```
 As always you should work in a virtualenv or venv. Setup a python virtual environment by this command.
 ```bash
 virtualenv venv -p python3.7
 ```
-Do the following steps to setup the Python Package in your system.
-
+Activate it using
 ```bash
-git clone https://github.com/anshuldutt21/spdx_python_licensematching.git
-cd spdx_python_licensematching
+source venv/bin/activate
+```
+Install the dependencies
+```bash
 pip install -e .
 ```
 

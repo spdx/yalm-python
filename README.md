@@ -3,9 +3,9 @@ A Python Library to implement SPDX License Matching. This Project is a result of
 
 Python : Version>=3.7
 
-Home: https://github.com/anshuldutt21/spdx_python_licensematching/
+Home : https://github.com/anshuldutt21/spdx_python_licensematching/
 
-Issues: https://github.com/anshuldutt21/spdx_python_licensematching/issues
+Issues : https://github.com/anshuldutt21/spdx_python_licensematching/issues
 
 # License
 [Apache-2.0](https://github.com/spdx/tools-python/blob/master/LICENSE)

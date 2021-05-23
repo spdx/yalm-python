@@ -10,6 +10,7 @@ from compare_normalized_files import CompareNormalizedFiles
 from normalize_template_text import NormalizeTemplate
 from generate_differences.differences import Generate_Differences
 
+
 def main():
     """
     This file is the main execution file for
@@ -36,16 +37,13 @@ def main():
     normalized_text = a.return_normalized_text()
     normalized_template = a.return_normalized_template()
 
-    if(CompareNormalizedFiles(normalized_template, normalized_text)):
+    if (CompareNormalizedFiles(normalized_template, normalized_text)):
         print("The Text and the Template Match.")
 
     else:
         nl = "\n"
-        print(f"The Text and the Template do not Match.{nl}"
-              f"Following text produces a mismatch{nl}"
-              )
-        compare_object = Generate_Differences(
-            normalized_template, normalized_text)
+        print(f"The Text and the Template do not Match.{nl}" f"Following text produces a mismatch{nl}")
+        compare_object = Generate_Differences(normalized_template, normalized_text)
 
         differences = compare_object.pretty_print_differences()
         pprint(differences)
@@ -53,18 +51,11 @@ def main():
 
 if __name__ == "__main__":
 
-    template_parser = argparse.ArgumentParser(
-        description='The Template and the Text to match')
+    template_parser = argparse.ArgumentParser(description='The Template and the Text to match')
 
-    template_parser.add_argument('Text',
-                                 metavar='text',
-                                 type=str,
-                                 help='the path to text')
+    template_parser.add_argument('Text', metavar='text', type=str, help='the path to text')
 
-    template_parser.add_argument('Template',
-                                 metavar='template',
-                                 type=str,
-                                 help='the path to template')
+    template_parser.add_argument('Template', metavar='template', type=str, help='the path to template')
 
     args = template_parser.parse_args()
 
@@ -72,13 +63,11 @@ if __name__ == "__main__":
     input_license_text = str(args.Text)
 
     if not os.path.exists(input_license_text):
-        print(
-            f'The path for License Text {input_license_text} specified does not exist')
+        print(f'The path for License Text {input_license_text} specified does not exist')
         sys.exit()
 
     if not os.path.exists(input_license_template):
-        print(
-            f'The path for License Template {input_license_template} specified does not exist')
+        print(f'The path for License Template {input_license_template} specified does not exist')
         sys.exit()
 
     main()

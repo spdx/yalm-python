@@ -9,7 +9,6 @@ class Generate_Differences:
     a length of 10 between the input text and the original input license
     text/template.
     """
-
     def __init__(self, constant_license, license_to_match):
         self.constant_license = constant_license
         self.license_to_match = license_to_match
@@ -19,15 +18,12 @@ class Generate_Differences:
 
     def generate_difference(self, copy_license):
 
-        matches = difflib.SequenceMatcher(
-            None,
-            self.constant_license,
-            self.license_to_match).get_matching_blocks()
+        matches = difflib.SequenceMatcher(None, self.constant_license, self.license_to_match).get_matching_blocks()
         print("Following text produces a mismatch with the original template/text")
 
         for match in matches:
             x = self.license_to_match[match.b:match.b + match.size]
-            if(match.size > 10):
+            if (match.size > 10):
                 copy_license = copy_license.replace(x, '')
 
         copy_license = copy_license.replace('`', ' ')

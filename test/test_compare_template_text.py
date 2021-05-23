@@ -6,7 +6,6 @@ from normalize_license_text.normalize_class import NormalizeText
 
 
 class TestTemplateText(unittest.TestCase):
-
     def test_omitable_text(self):
         a = "<<beginOptional>>Hello I am a Test.<<endOptional>>"
         b = "Hello I am a Test."
@@ -20,10 +19,7 @@ class TestTemplateText(unittest.TestCase):
         test.remove_repeating_chars()
         normalized_text = test.return_normalized_text()
         normalized_template = test.return_normalized_template()
-        self.assertTrue(
-            CompareNormalizedFiles(
-                normalized_template,
-                normalized_text))
+        self.assertTrue(CompareNormalizedFiles(normalized_template, normalized_text))
 
     def test_replaceable_text(self):
         a = " <<var;name=\"copyright\";original=\"Hello This is a test.\";match=\".{0,20}\">> Test"
@@ -38,10 +34,7 @@ class TestTemplateText(unittest.TestCase):
         test.remove_repeating_chars()
         normalized_text = test.return_normalized_text()
         normalized_template = test.return_normalized_template()
-        self.assertTrue(
-            CompareNormalizedFiles(
-                normalized_template,
-                normalized_text))
+        self.assertTrue(CompareNormalizedFiles(normalized_template, normalized_text))
 
 
 if __name__ == '__main__':

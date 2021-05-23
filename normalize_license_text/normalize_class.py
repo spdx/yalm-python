@@ -6,8 +6,9 @@ from configuration.config import PACKAGE_PATH
 
 from generate_differences.differences import Generate_Differences
 
-equivalent_words_file = str(PACKAGE_PATH +"\\resources\\equivalentwords.txt")
-equivalent_words_file = equivalent_words_file.replace('\\',os.sep)
+equivalent_words_file = str(PACKAGE_PATH + "\\resources\\equivalentwords.txt")
+equivalent_words_file = equivalent_words_file.replace('\\', os.sep)
+
 
 class NormalizeText:
     """
@@ -16,7 +17,6 @@ class NormalizeText:
     symbols and whitespaces. The Class mainly takes as input argument a
     string and normalizes into an output normalized_string.
     """
-
     def __init__(self, inputstring):
         self.inputstring = inputstring
 
@@ -44,12 +44,9 @@ class NormalizeText:
 
         normalized_string_for_template = ''
         normalized_string_for_template = self.lowercase()
-        normalized_string_for_template = self.equivalentwords(
-            normalized_string_for_template)
-        normalized_string_for_template = self.punctuation(
-            normalized_string_for_template)
-        normalized_string_for_template = self.remove_whitespace(
-            normalized_string_for_template)
+        normalized_string_for_template = self.equivalentwords(normalized_string_for_template)
+        normalized_string_for_template = self.punctuation(normalized_string_for_template)
+        normalized_string_for_template = self.remove_whitespace(normalized_string_for_template)
         return normalized_string_for_template
 
     def lowercase(self):
@@ -74,13 +71,11 @@ class NormalizeText:
                 wordreplaced = splitwords[1]
                 wordtoreplace = str(wordtoreplace)
                 wordreplaced = str(wordreplaced)[:-1]
-                normalized_string = re.sub(
-                    wordreplaced, wordtoreplace, normalized_string)
+                normalized_string = re.sub(wordreplaced, wordtoreplace, normalized_string)
             equivalentfile.close()
             return normalized_string
         except:
-            raise Exception("There was some problem with accessing the equivalent words file." 
-                            "The Path is incorrect")
+            raise Exception("There was some problem with accessing the equivalent words file." "The Path is incorrect")
 
     def copyrightsymbol(self, normalized_string):
         """
@@ -93,8 +88,7 @@ class NormalizeText:
             normalized_string = normalized_string.replace('(c)', '')
             return normalized_string
         except:
-            raise Exception("There was some problem with accessing the equivalent words file." 
-                            "The Path is incorrect")
+            raise Exception("There was some problem with accessing the equivalent words file." "The Path is incorrect")
 
     def bullets_numbering(self, normalized_string):
         """
@@ -106,14 +100,7 @@ class NormalizeText:
         """
 
         try:
-            regex_to_substitute = [
-                r'([0-9]+\.){2,}',
-                r'[0-9]+\.[\D]',
-                r'^[a-z]\.',
-                r'[a-z]\)',
-                r'[0-9]\)',
-                r'^[A-Z]\.',
-                '^[mdclxvi]+\.']
+            regex_to_substitute = [r'([0-9]+\.){2,}', r'[0-9]+\.[\D]', r'^[a-z]\.', r'[a-z]\)', r'[0-9]\)', r'^[A-Z]\.', '^[mdclxvi]+\.']
 
             for x in regex_to_substitute:
                 normalized_string = re.sub(x, '', normalized_string)
@@ -147,8 +134,7 @@ class NormalizeText:
 
     def license_title(self, normalized_string):
 
-        normalized_string = re.sub(
-            r'end of terms and conditions`', '', normalized_string)
+        normalized_string = re.sub(r'end of terms and conditions`', '', normalized_string)
         return normalized_string
 
     def remove_whitespace(self, normalized_string):

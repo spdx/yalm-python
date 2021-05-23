@@ -36,43 +36,33 @@ def main():
                 object_normalization = NormalizeText(input_template_file)
                 input_template_file = object_normalization.returnfinalstring_for_template()
 
-                y = NormalizeTemplate(
-                    normalized_text_string, input_template_file
-                    )
+                y = NormalizeTemplate(normalized_text_string, input_template_file)
                 y.normalize_template()
                 normalized_template_string = y.return_normalized_template()
                 normalized_text_string = y.return_normalized_text()
         except BaseException:
             continue
 
-        if(CompareNormalizedFiles(
-            normalized_template_string, normalized_text_string
-        )):
+        if (CompareNormalizedFiles(normalized_template_string, normalized_text_string)):
 
             print("The Text matches with the Template- " + file_name)
 
 
 if __name__ == "__main__":
 
-    all_template_parser = argparse.ArgumentParser(
-        description='All Templates and the Text to match'
-    )
+    all_template_parser = argparse.ArgumentParser(description='All Templates and the Text to match')
 
-    all_template_parser.add_argument('License_Text',
-                                     metavar='text',
-                                     type=str,
-                                     help='the path to text')
+    all_template_parser.add_argument('License_Text', metavar='text', type=str, help='the path to text')
 
     args = all_template_parser.parse_args()
 
     input_license_text = str(args.License_Text)
 
     directory = str(Path(PACKAGE_PATH + '\\data\\templates\\'))
-    directory = directory.replace('\\',os.sep)
+    directory = directory.replace('\\', os.sep)
 
     if not os.path.exists(input_license_text):
-        print(
-            f'The path for License Text {input_license_text} specified does not exist')
+        print(f'The path for License Text {input_license_text} specified does not exist')
         sys.exit()
 
     main()

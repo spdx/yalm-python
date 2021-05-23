@@ -28,13 +28,12 @@ def main():
         y = NormalizeText(inputstring)
         normalized_string2 = y.returnfinalstring()
 
-    if(normalized_string1 == normalized_string2):
+    if (normalized_string1 == normalized_string2):
         print("The Two License Texts match")
 
     else:
         print("The Two License Texts do not match.")
-        compare_object = Generate_Differences(
-            normalized_string1, normalized_string2)
+        compare_object = Generate_Differences(normalized_string1, normalized_string2)
         differences = compare_object.pretty_print_differences()
         pprint(differences)
 
@@ -42,15 +41,9 @@ def main():
 if __name__ == "__main__":
     text_parser = argparse.ArgumentParser(description='Match the Licese Texts')
 
-    text_parser.add_argument('License_Text1',
-                             metavar='text',
-                             type=str,
-                             help='the path to text A')
+    text_parser.add_argument('License_Text1', metavar='text', type=str, help='the path to text A')
 
-    text_parser.add_argument('License_Text2',
-                             metavar='text',
-                             type=str,
-                             help='the path to License Text B')
+    text_parser.add_argument('License_Text2', metavar='text', type=str, help='the path to License Text B')
 
     args = text_parser.parse_args()
 
@@ -58,13 +51,11 @@ if __name__ == "__main__":
     input_license_file2 = str(args.License_Text2)
 
     if not os.path.exists(input_license_file1):
-        print(
-            f'The path for License Text {input_license_file1} specified does not exist')
+        print(f'The path for License Text {input_license_file1} specified does not exist')
         sys.exit()
 
     if not os.path.exists(input_license_file2):
-        print(
-            f'The path for License Text {input_license_file2} specified does not exist')
+        print(f'The path for License Text {input_license_file2} specified does not exist')
         sys.exit()
 
     main()

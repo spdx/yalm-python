@@ -5,7 +5,7 @@ from pathlib import Path
 from normalize_license_text.normalize_class import NormalizeText
 from configuration.config import PACKAGE_PATH
 from compare_template_text.normalize_template_text import NormalizeTemplate
-from compare_template_text.compare_normalized_files import CompareNormalizedFiles
+from compare_template_text.compare_normalized_files import compare_normalized_files
 
 input_text = str(Path(PACKAGE_PATH + "\\test\\data\\OBSD.txt"))
 input_text = input_text.replace('\\', os.sep)
@@ -23,13 +23,13 @@ class TestNormalizeTexts(unittest.TestCase):
             input_text_string = inputfile.read()
             inputfile.close()
             x = NormalizeText(input_text_string)
-            normalized_text_string = x.returnfinalstring()
+            normalized_text_string = x.get_final_string()
 
         with open(input_text2, 'r') as input_file:
             input_text_string2 = input_file.read()
             input_file.close()
             y = NormalizeText(input_text_string2)
-            normalized_text_string2 = y.returnfinalstring()
+            normalized_text_string2 = y.get_final_string()
 
         self.assertEqual(True, normalized_text_string2 == normalized_text_string)
 
@@ -38,13 +38,13 @@ class TestNormalizeTexts(unittest.TestCase):
             input_text_string = inputfile.read()
             inputfile.close()
             x = NormalizeText(input_text_string)
-            normalized_text_string = x.returnfinalstring()
+            normalized_text_string = x.get_final_string()
 
         with open(input_text_unmatch, 'r') as input_file:
             input_text_string2 = input_file.read()
             input_file.close()
             y = NormalizeText(input_text_string2)
-            normalized_text_string2 = y.returnfinalstring()
+            normalized_text_string2 = y.get_final_string()
 
         self.assertEqual(True, normalized_text_string2 == normalized_text_string)
 

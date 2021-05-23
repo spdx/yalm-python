@@ -5,7 +5,7 @@ import argparse
 
 from pprint import pprint
 from normalize_class import NormalizeText
-from generate_differences.differences import Generate_Differences
+from generate_differences.differences import DifferenceGenerator
 from configuration.config import PACKAGE_PATH
 
 
@@ -20,20 +20,20 @@ def main():
         inputstring = inputfile.read()
         inputfile.close()
         x = NormalizeText(inputstring)
-        normalized_string1 = x.returnfinalstring()
+        normalized_string1 = x.get_final_string()
 
     with open(input_license_file2, 'r') as inputfile:
         inputstring = inputfile.read()
         inputfile.close()
         y = NormalizeText(inputstring)
-        normalized_string2 = y.returnfinalstring()
+        normalized_string2 = y.get_final_string()
 
     if (normalized_string1 == normalized_string2):
         print("The Two License Texts match")
 
     else:
         print("The Two License Texts do not match.")
-        compare_object = Generate_Differences(normalized_string1, normalized_string2)
+        compare_object = DifferenceGenerator(normalized_string1, normalized_string2)
         differences = compare_object.pretty_print_differences()
         pprint(differences)
 

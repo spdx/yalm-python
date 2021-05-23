@@ -17,13 +17,13 @@ class NormalizeTemplate:
         self.remove_replaceable_text()
         self.remove_omitable_text()
 
-    def return_normalized_template(self):
+    def get_normalized_template(self):
         """ 
         Returns the Normalized template after normalization techniques. 
         """
         return self.template_string
 
-    def return_normalized_text(self):
+    def get_normalized_text(self):
         """
         Returns the normalized text after normalization techniques.
         """

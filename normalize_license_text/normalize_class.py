@@ -4,7 +4,7 @@ from pathlib import Path, PureWindowsPath
 
 from configuration.config import PACKAGE_PATH
 
-from generate_differences.differences import Generate_Differences
+from generate_differences.differences import DifferenceGenerator
 
 equivalent_words_file = str(PACKAGE_PATH + "\\resources\\equivalentwords.txt")
 equivalent_words_file = equivalent_words_file.replace('\\', os.sep)
@@ -20,7 +20,7 @@ class NormalizeText:
     def __init__(self, inputstring):
         self.inputstring = inputstring
 
-    def returnfinalstring(self):
+    def get_final_string(self):
         """
         Return the Final normalized string.
         This function is used in comparing 2 License Texts.
@@ -36,7 +36,7 @@ class NormalizeText:
         normalized_string = self.remove_whitespace(normalized_string)
         return normalized_string
 
-    def returnfinalstring_for_template(self):
+    def get_final_string_for_template(self):
         """
         Returns the Final Normalized String for Template Format.
         This Function is used in comparing Template and Text.

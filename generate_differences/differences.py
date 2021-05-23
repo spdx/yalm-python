@@ -3,7 +3,7 @@ import difflib
 from pprint import pprint
 
 
-class Generate_Differences:
+class DifferenceGenerator:
     """
     This Class generates the potential differences which are more than
     a length of 10 between the input text and the original input license

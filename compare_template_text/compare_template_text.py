@@ -6,9 +6,9 @@ from pprint import pprint
 from configuration.config import PACKAGE_PATH
 
 from normalize_license_text.normalize_class import NormalizeText
-from compare_normalized_files import CompareNormalizedFiles
+from compare_normalized_files import compare_normalized_files
 from normalize_template_text import NormalizeTemplate
-from generate_differences.differences import Generate_Differences
+from generate_differences.differences import DifferenceGenerator
 
 
 def main():
@@ -24,26 +24,26 @@ def main():
         input_text_string = inputfile.read()
         inputfile.close()
         x = NormalizeText(input_text_string)
-        normalized_text_string = x.returnfinalstring_for_template()
+        normalized_text_string = x.get_final_string_for_template()
 
     with open(input_license_template, 'r') as inputfile:
         input_template_string = inputfile.read()
         inputfile.close()
         y = NormalizeText(input_template_string)
-        normalized_template_string = y.returnfinalstring_for_template()
+        normalized_template_string = y.get_final_string_for_template()
 
     a = NormalizeTemplate(normalized_text_string, normalized_template_string)
     a.normalize_template()
-    normalized_text = a.return_normalized_text()
-    normalized_template = a.return_normalized_template()
+    normalized_text = a.get_normalized_text()
+    normalized_template = a.get_normalized_template()
 
-    if (CompareNormalizedFiles(normalized_template, normalized_text)):
+    if (compare_normalized_files(normalized_template, normalized_text)):
         print("The Text and the Template Match.")
 
     else:
         nl = "\n"
         print(f"The Text and the Template do not Match.{nl}" f"Following text produces a mismatch{nl}")
-        compare_object = Generate_Differences(normalized_template, normalized_text)
+        compare_object = DifferenceGenerator(normalized_template, normalized_text)
 
         differences = compare_object.pretty_print_differences()
         pprint(differences)

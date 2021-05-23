@@ -5,7 +5,7 @@ from pathlib import Path, PureWindowsPath
 from normalize_license_text.normalize_class import NormalizeText
 from configuration.config import PACKAGE_PATH
 from compare_template_text.normalize_template_text import NormalizeTemplate
-from compare_template_text.compare_normalized_files import CompareNormalizedFiles
+from compare_template_text.compare_normalized_files import compare_normalized_files
 
 input_text = Path(PACKAGE_PATH + "/test/data/test_all_ids.txt")
 directory = Path(PACKAGE_PATH + "/data/templates/")
@@ -20,7 +20,7 @@ class TestAllTexts(unittest.TestCase):
             input_text_string = inputfile.read()
             inputfile.close()
             x = NormalizeText(input_text_string)
-            normalized_text_string = x.returnfinalstring_for_template()
+            normalized_text_string = x.get_final_string_for_template()
 
         for filename in os.scandir(directory):
             file_name = str(filename.path)
@@ -34,16 +34,16 @@ class TestAllTexts(unittest.TestCase):
                     input_template_file = input_file.read()
                     input_file.close()
                     object_normalization = NormalizeText(input_template_file)
-                    input_template_file = object_normalization.returnfinalstring_for_template()
+                    input_template_file = object_normalization.get_final_string_for_template()
 
                     y = NormalizeTemplate(normalized_text_string, input_template_file)
                     y.normalize_template()
-                    normalized_template_string = y.return_normalized_template()
-                    normalized_text_string = y.return_normalized_text()
+                    normalized_template_string = y.get_normalized_template()
+                    normalized_text_string = y.get_normalized_text()
             except BaseException:
                 continue
 
-            if (CompareNormalizedFiles(normalized_template_string, normalized_text_string)):
+            if (compare_normalized_files(normalized_template_string, normalized_text_string)):
                 list_of_matches.append(file_name)
                 print("The Text matches with the Template- " + file_name)
 

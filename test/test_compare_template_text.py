@@ -1,47 +1,36 @@
 import unittest
 
-from compare_template_text.compare_normalized_files import CompareNormalizedFiles
+from compare_template_text.compare_normalized_files import compare_normalized_files
 from compare_template_text.normalize_template_text import NormalizeTemplate
-from normalize_license_text.normalize_class import NormalizeText
+from normalize_license_text import normalizer
 
 
 class TestTemplateText(unittest.TestCase):
-
     def test_omitable_text(self):
         a = "<<beginOptional>>Hello I am a Test.<<endOptional>>"
         b = "Hello I am a Test."
-        x = NormalizeText(a)
-        stringtemplate = x.returnfinalstring_for_template()
-        y = NormalizeText(b)
-        stringtext = y.returnfinalstring_for_template()
+        stringtemplate = normalizer.normalize_template(a)
+        stringtext = normalizer.normalize_template(b)
         test = NormalizeTemplate(stringtext, stringtemplate)
         test.remove_repeating_chars()
         test.remove_omitable_text()
         test.remove_repeating_chars()
-        normalized_text = test.return_normalized_text()
-        normalized_template = test.return_normalized_template()
-        self.assertTrue(
-            CompareNormalizedFiles(
-                normalized_template,
-                normalized_text))
+        normalized_text = test.get_normalized_text()
+        normalized_template = test.get_normalized_template()
+        self.assertTrue(compare_normalized_files(normalized_template, normalized_text))
 
     def test_replaceable_text(self):
         a = " <<var;name=\"copyright\";original=\"Hello This is a test.\";match=\".{0,20}\">> Test"
         b = " Hello This  Test"
-        x = NormalizeText(a)
-        stringtemplate = x.returnfinalstring_for_template()
-        y = NormalizeText(b)
-        stringtext = y.returnfinalstring_for_template()
+        stringtemplate = normalizer.normalize_template(a)
+        stringtext = normalizer.normalize_template(b)
         test = NormalizeTemplate(stringtext, stringtemplate)
         test.remove_repeating_chars()
         test.remove_replaceable_text()
         test.remove_repeating_chars()
-        normalized_text = test.return_normalized_text()
-        normalized_template = test.return_normalized_template()
-        self.assertTrue(
-            CompareNormalizedFiles(
-                normalized_template,
-                normalized_text))
+        normalized_text = test.get_normalized_text()
+        normalized_template = test.get_normalized_template()
+        self.assertTrue(compare_normalized_files(normalized_template, normalized_text))
 
 
 if __name__ == '__main__':

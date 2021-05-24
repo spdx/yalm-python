@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import argparse
 
 from pprint import pprint
-from normalize_class import NormalizeText
-from generate_differences.differences import Generate_Differences
+from normalize_license_text import normalizer
+from generate_differences.differences import DifferenceGenerator
 from configuration.config import PACKAGE_PATH
 
 
@@ -18,23 +19,18 @@ def main():
 
     with open(input_license_file1, 'r') as inputfile:
         inputstring = inputfile.read()
-        inputfile.close()
-        x = NormalizeText(inputstring)
-        normalized_string1 = x.returnfinalstring()
+        normalized_string1 = normalizer.normalize_text(inputstring)
 
     with open(input_license_file2, 'r') as inputfile:
         inputstring = inputfile.read()
-        inputfile.close()
-        y = NormalizeText(inputstring)
-        normalized_string2 = y.returnfinalstring()
+        normalized_string2 = normalizer.normalize_text(inputstring)
 
-    if(normalized_string1 == normalized_string2):
+    if (normalized_string1 == normalized_string2):
         print("The Two License Texts match")
 
     else:
         print("The Two License Texts do not match.")
-        compare_object = Generate_Differences(
-            normalized_string1, normalized_string2)
+        compare_object = DifferenceGenerator(normalized_string1, normalized_string2)
         differences = compare_object.pretty_print_differences()
         pprint(differences)
 
@@ -42,15 +38,9 @@ def main():
 if __name__ == "__main__":
     text_parser = argparse.ArgumentParser(description='Match the Licese Texts')
 
-    text_parser.add_argument('License_Text1',
-                             metavar='text',
-                             type=str,
-                             help='the path to text A')
+    text_parser.add_argument('License_Text1', metavar='text', type=str, help='the path to text A')
 
-    text_parser.add_argument('License_Text2',
-                             metavar='text',
-                             type=str,
-                             help='the path to License Text B')
+    text_parser.add_argument('License_Text2', metavar='text', type=str, help='the path to License Text B')
 
     args = text_parser.parse_args()
 
@@ -58,13 +48,11 @@ if __name__ == "__main__":
     input_license_file2 = str(args.License_Text2)
 
     if not os.path.exists(input_license_file1):
-        print(
-            f'The path for License Text {input_license_file1} specified does not exist')
+        print(f'The path for License Text {input_license_file1} specified does not exist')
         sys.exit()
 
     if not os.path.exists(input_license_file2):
-        print(
-            f'The path for License Text {input_license_file2} specified does not exist')
+        print(f'The path for License Text {input_license_file2} specified does not exist')
         sys.exit()
 
     main()

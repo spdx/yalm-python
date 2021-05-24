@@ -2,7 +2,7 @@ import unittest
 import os
 from pathlib import Path
 
-from normalize_license_text.normalize_class import NormalizeText
+from normalize_license_text import normalizer
 from configuration.config import PACKAGE_PATH
 from compare_template_text.normalize_template_text import NormalizeTemplate
 from compare_template_text.compare_normalized_files import compare_normalized_files
@@ -22,14 +22,12 @@ class TestNormalizeTexts(unittest.TestCase):
         with open(input_text, 'r') as inputfile:
             input_text_string = inputfile.read()
             inputfile.close()
-            x = NormalizeText(input_text_string)
-            normalized_text_string = x.get_final_string()
+            normalized_text_string = normalizer.normalize_text(input_text_string)
 
         with open(input_text2, 'r') as input_file:
             input_text_string2 = input_file.read()
             input_file.close()
-            y = NormalizeText(input_text_string2)
-            normalized_text_string2 = y.get_final_string()
+            normalized_text_string2 = normalizer.normalize_text(input_text_string2)
 
         self.assertEqual(True, normalized_text_string2 == normalized_text_string)
 
@@ -37,14 +35,12 @@ class TestNormalizeTexts(unittest.TestCase):
         with open(input_text, 'r') as inputfile:
             input_text_string = inputfile.read()
             inputfile.close()
-            x = NormalizeText(input_text_string)
-            normalized_text_string = x.get_final_string()
+            normalized_text_string = normalizer.normalize_text(input_text_string)
 
         with open(input_text_unmatch, 'r') as input_file:
             input_text_string2 = input_file.read()
             input_file.close()
-            y = NormalizeText(input_text_string2)
-            normalized_text_string2 = y.get_final_string()
+            normalized_text_string2 = normalizer.normalize_text(input_text_string2)
 
         self.assertEqual(True, normalized_text_string2 == normalized_text_string)
 

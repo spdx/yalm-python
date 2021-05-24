@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import argparse
 
 from pprint import pprint
-from normalize_class import NormalizeText
+from normalize_license_text import normalizer
 from generate_differences.differences import DifferenceGenerator
 from configuration.config import PACKAGE_PATH
 
@@ -18,15 +19,11 @@ def main():
 
     with open(input_license_file1, 'r') as inputfile:
         inputstring = inputfile.read()
-        inputfile.close()
-        x = NormalizeText(inputstring)
-        normalized_string1 = x.get_final_string()
+        normalized_string1 = normalizer.normalize_text(inputstring)
 
     with open(input_license_file2, 'r') as inputfile:
         inputstring = inputfile.read()
-        inputfile.close()
-        y = NormalizeText(inputstring)
-        normalized_string2 = y.get_final_string()
+        normalized_string2 = normalizer.normalize_text(inputstring)
 
     if (normalized_string1 == normalized_string2):
         print("The Two License Texts match")

@@ -2,7 +2,7 @@ import unittest
 import os
 from pathlib import Path
 
-from normalize_license_text.normalize_class import NormalizeText
+from normalize_license_text import normalizer
 from configuration.config import PACKAGE_PATH
 from compare_template_text.normalize_template_text import NormalizeTemplate
 from compare_template_text.compare_normalized_files import compare_normalized_files
@@ -23,14 +23,12 @@ class TestAllTexts(unittest.TestCase):
         with open(input_text, 'r') as inputfile:
             input_text_string = inputfile.read()
             inputfile.close()
-            x = NormalizeText(input_text_string)
-            normalized_text_string = x.get_final_string_for_template()
+            normalized_text_string = normalizer.normalize_template(input_text_string)
 
         with open(input_template, 'r') as input_file:
             input_template_file = input_file.read()
             input_file.close()
-            object_normalization = NormalizeText(input_template_file)
-            input_template_file = object_normalization.get_final_string_for_template()
+            input_template_file = normalizer.normalize_template(input_template_file)
 
             y = NormalizeTemplate(normalized_text_string, input_template_file)
             y.normalize_template()
@@ -44,14 +42,12 @@ class TestAllTexts(unittest.TestCase):
         with open(input_text_mismatch, 'r') as inputfile:
             input_text_string = inputfile.read()
             inputfile.close()
-            x = NormalizeText(input_text_string)
-            normalized_text_string = x.get_final_string_for_template()
+            normalized_text_string = normalizer.normalize_template(input_text_string)
 
         with open(input_template, 'r') as input_file:
             input_template_file = input_file.read()
             input_file.close()
-            object_normalization = NormalizeText(input_template_file)
-            input_template_file = object_normalization.get_final_string_for_template()
+            input_template_file = normalizer.normalize_template(input_template_file)
 
             y = NormalizeTemplate(normalized_text_string, input_template_file)
             y.normalize_template()

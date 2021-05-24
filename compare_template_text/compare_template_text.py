@@ -1,13 +1,14 @@
 import re
 import os
+import sys
 import argparse
 from pprint import pprint
 
 from configuration.config import PACKAGE_PATH
 
-from normalize_license_text.normalize_class import NormalizeText
-from compare_normalized_files import compare_normalized_files
-from normalize_template_text import NormalizeTemplate
+from normalize_license_text import normalizer
+from compare_template_text.compare_normalized_files import compare_normalized_files
+from compare_template_text.normalize_template_text import NormalizeTemplate
 from generate_differences.differences import DifferenceGenerator
 
 
@@ -23,14 +24,12 @@ def main():
     with open(input_license_text, 'r') as inputfile:
         input_text_string = inputfile.read()
         inputfile.close()
-        x = NormalizeText(input_text_string)
-        normalized_text_string = x.get_final_string_for_template()
+        normalized_text_string = normalizer.normalize_template(input_text_string)
 
     with open(input_license_template, 'r') as inputfile:
         input_template_string = inputfile.read()
         inputfile.close()
-        y = NormalizeText(input_template_string)
-        normalized_template_string = y.get_final_string_for_template()
+        normalized_template_string = normalizer.normalize_template(input_template_string)
 
     a = NormalizeTemplate(normalized_text_string, normalized_template_string)
     a.normalize_template()

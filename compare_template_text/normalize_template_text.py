@@ -82,10 +82,15 @@ class NormalizeTemplate:
 
             if (match_regex.endswith('`')):
                 match_regex = match_regex[:-1]
-            """ The '\' is required to be replaced because the match pos shouldn't
-            contain any escaped characters. The only escaped characters present in 
-            it are those which contain '\' in the match pos. These characters are
-            replaced with '@' to identify them and are later converted back to '\'
+
+            """ 
+            The escaped '\' (\\) is required to be replaced because the match pos shouldn't
+            contain any escaped characters as the regex is to be replaced without changes. The only escaped
+            characters present in the match regex are those which contain escaped '\' (\\) originally in the match pos.
+            These characters are replaced with '@' to identify them and are later converted back to escaped '\'(\\)
+            For example: <<match='.*Hello\\'>> is first converted to <<.\*Hello@>> then escaped to <<.\\*Hello@>> as
+            done in the init function. Then later after selecting this matched regex, it is converted back into
+            <<.*Hello@>> by removing all '\\' and then by removing '@' converted into <<.*Hello\\>> which is the final regex.
             """
 
             match_regex = match_regex.replace('\\', '')

@@ -2,8 +2,8 @@ import os
 import re
 from abc import abstractmethod, ABCMeta
 
-from configuration.config import PACKAGE_PATH
-from generate_differences.differences import DifferenceGenerator
+from .config import PACKAGE_PATH
+from .differences import DifferenceGenerator
 
 class Normalizer(metaclass=ABCMeta):
     @abstractmethod

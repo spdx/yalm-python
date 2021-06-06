@@ -2,12 +2,12 @@ import unittest
 import os
 from pathlib import Path, PureWindowsPath
 
-from normalize_license_text import normalizer
-from configuration.config import PACKAGE_PATH
-from compare_template_text.normalize_template_text import NormalizeTemplate
-from compare_template_text.compare_normalized_files import compare_normalized_files
+from yalm import normalizer
+from yalm.config import PACKAGE_PATH
+from yalm.normalize_template_text import NormalizeTemplate
+from yalm.compare_normalized_files import compare_normalized_files
 
-input_text = Path(PACKAGE_PATH + "/test/data/test_all_ids.txt")
+input_text = Path(PACKAGE_PATH + "/tests/data/test_all_ids.txt")
 directory = Path(PACKAGE_PATH + "/data/templates/")
 
 

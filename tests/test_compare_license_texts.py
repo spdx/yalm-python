@@ -1,6 +1,6 @@
 import unittest
 
-from normalize_license_text import normalizer
+from yalm import normalizer
 
 
 class TestTwoLicenseTexts(unittest.TestCase):

@@ -1,8 +1,8 @@
 import unittest
 
-from compare_template_text.compare_normalized_files import compare_normalized_files
-from compare_template_text.normalize_template_text import NormalizeTemplate
-from normalize_license_text import normalizer
+from yalm.compare_normalized_files import compare_normalized_files
+from yalm.normalize_template_text import NormalizeTemplate
+from yalm import normalizer
 
 
 class TestTemplateText(unittest.TestCase):

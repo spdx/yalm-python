@@ -2,18 +2,18 @@ import unittest
 import os
 from pathlib import Path
 
-from normalize_license_text import normalizer
-from configuration.config import PACKAGE_PATH
-from compare_template_text.normalize_template_text import NormalizeTemplate
-from compare_template_text.compare_normalized_files import compare_normalized_files
+from yalm import normalizer
+from yalm.config import PACKAGE_PATH
+from yalm.normalize_template_text import NormalizeTemplate
+from yalm.compare_normalized_files import compare_normalized_files
 
-input_text = str(Path(PACKAGE_PATH + "\\test\\data\\OBSD.txt"))
+input_text = str(Path(PACKAGE_PATH + "\\tests\\data\\OBSD.txt"))
 input_text = input_text.replace('\\', os.sep)
 
-input_text2 = str(Path(PACKAGE_PATH + "\\test\\data\\OBSD2.txt"))
+input_text2 = str(Path(PACKAGE_PATH + "\\tests\\data\\OBSD2.txt"))
 input_text2 = input_text.replace('\\', os.sep)
 
-input_text_unmatch = str(Path(PACKAGE_PATH + "\\test\\data\\OBSD3.txt"))
+input_text_unmatch = str(Path(PACKAGE_PATH + "\\tests\\data\\OBSD3.txt"))
 input_text_unmatch = input_text.replace('\\', os.sep)
 
 

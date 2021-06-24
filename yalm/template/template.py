@@ -1,47 +1,66 @@
 import re
-from abc import ABC
+from abc import ABC, abstractmethod
+from typing import Any
+
+
+class TemplateParseError(Exception):
+  pass
 
 
 class Node(ABC):
   def __init__(self, tag: str):
     self._tag = tag
 
-  def _to_dict(self):
+  def to_dict(self) -> Any:
     return {
         'type': self._tag,
     }
 
-  def _is_empty(self):
+  def _is_empty(self) -> bool:
     return False
 
-  def _normalize(self):
-    pass
+  def simplify(self) -> 'Node':
+    return self
 
-  @staticmethod
-  def normalize(nodes: list[Node]) -> list[Node]:
-    """
-    Normalize the nodes to remove redundancy.
-    First, we remove nodes that are empty.
-    Then, consecutive text nodes are merged.
-    """
-    # Remove empty nodes
-    nodes = list(filter(lambda node: not node._is_empty(), nodes))
+
+class SequentialNode(Node):
+  def __init__(self, *nodes: Node) -> None:
+    super().__init__('sequential')
+    self.nodes = list(nodes)
+
+  def to_dict(self) -> Any:
+    return [node.to_dict() for node in self.nodes]
+
+  def _is_empty(self) -> bool:
+    return all(node._is_empty() for node in self.nodes)
+
+  def simplify(self) -> Node:
+    # Normalize
+    self.nodes = [node.simplify() for node in self.nodes if not node._is_empty()]
+    # Flatten nodes
+    nodes_flat = []
+    for node in self.nodes:
+      if isinstance(node, self.__class__):
+        # flatten nested seq
+        nodes_flat += node.nodes
+      else:
+        nodes_flat.append(node)
     # Merge nodes
     nodes_merged = []
-    for node in nodes:
+    for node in nodes_flat:
       if nodes_merged and isinstance(node, TextNode) and isinstance(nodes_merged[-1], TextNode):
+        # concat texts
         nodes_merged[-1] = TextNode(nodes_merged[-1].text + node.text)
       else:
         nodes_merged.append(node)
-    # Normalize
-    for node in nodes_merged:
-      node._normalize()
-    return nodes_merged
+    self.nodes = nodes_merged
+    return self
 
+  def __str__(self):
+    return ''.join(map(str, self.nodes))
 
-  @staticmethod
-  def to_dict(nodes: list[Node]) -> list:
-    return [node._to_dict() for node in nodes]
+  def __repr__(self):
+    return f"SequentialNode({', '.join(map(repr, self.nodes))})"
 
 
 class TextNode(Node):
@@ -52,92 +71,89 @@ class TextNode(Node):
     super().__init__('text')
     self.text = text
 
-  def _to_dict(self):
+  def to_dict(self):
     return {
-        **super()._to_dict(),
+        **super().to_dict(),
         'content': self.text,
     }
 
   def _is_empty(self):
-    return not self.text
+    return self.text == ''
 
-  def _normalize(self):
-    self.text = self._regex_vspace.sub('\n', self.text)
-    self.text = self._regex_hspace.sub(' ', self.text)
-  
   def __str__(self):
     return re.escape(self.text)
-  
+
   def __repr__(self):
-    return f"TextNode({self.text})"
+    return f"TextNode({repr(self.text)})"
 
 
 class OptionaltNode(Node):
-  def __init__(self, contents: list[Node]):
+  def __init__(self, content: Node):
     super().__init__('optional')
-    self.contents = contents
+    self.content = content
 
-  def _to_dict(self):
+  def to_dict(self):
     return {
-        **super()._to_dict(),
-        'content': Node.to_dict(self.contents),
+        **super().to_dict(),
+        'content': self.content.to_dict(),
     }
 
   def _is_empty(self):
-    return all(node._is_empty() for node in self.contents)
+    return self.content._is_empty()
 
-  def _normalize(self):
-    self.contents = Node.normalize(self.contents)
+  def simplify(self):
+    self.content = self.content.simplify()
+    return self
 
   def __str__(self):
-    return ''.join(map(str, self.contents))
+    return f"(?:{self.content})?"
 
   def __repr__(self):
-    return f"OptionalNode([{', '.join(map(repr, self.contents))}])"
+    return f"OptionalNode({repr(self.content)})"
 
 
 class VarNode(Node):
-  def __init__(self, name: str, original: list[Node], pattern: str):
+  def __init__(self, name: str, original: Node, pattern: str):
     super().__init__('var')
     self.name = name
     self.original = original
     self.pattern = pattern
 
-  def _to_dict(self):
+  def to_dict(self):
     return {
-        **super()._to_dict(),
+        **super().to_dict(),
         'name': self.name,
-        'content': Node.to_dict(self.original),
+        'content': self.original.to_dict(),
         'pattern': self.pattern,
     }
 
-  def _normalize(self):
-    self.original = Node.normalize(self.original)
+  def simplify(self):
+    self.original = self.original.simplify()
+    return self
 
   def __str__(self):
     return self.pattern
 
   def __repr__(self):
-    return f"VarNode({self.name}, [{', '.join(map(repr, self.original))}], '{self.pattern}')"
+    return f"VarNode({repr(self.name)}, {repr(self.original)}, {repr(self.pattern)})"
 
 
-def parse_json(nodes: list) -> list[Node]:
+def parse_json(node: Any) -> Node:
   """
   Deserialize nodes in json format.
   """
-  results = []
-  for node in nodes:
-    assert 'type' in node
-    if node['type'] == 'text':
-      results.append(TextNode(node['content']))
-    elif node['type'] == 'optional':
-      content = parse_json(node['content'])
-      results.append(OptionaltNode(content))
-    elif node['type'] == 'var':
-      name = node['name']
-      content = parse_json(node['content'])
-      pattern = node['pattern']
-      results.append(VarNode(name, content, pattern))
-    else:
-      raise NotImplementedError('Unsupported node type')
-  return results
+  if type(node) == list:
+    contents = [parse_json(c) for c in node]
+    return SequentialNode(*contents)
+  elif node['type'] == 'text':
+    return TextNode(node['content'])
+  elif node['type'] == 'optional':
+    content = parse_json(node['content'])
+    return OptionaltNode(content)
+  elif node['type'] == 'var':
+    name = node['name']
+    content = parse_json(node['content'])
+    pattern = node['pattern']
+    return VarNode(name, content, pattern)
+  else:
+    raise NotImplementedError('Unsupported node type')

@@ -132,7 +132,7 @@ class VarNode(Node):
     return self
 
   def __str__(self):
-    return self.pattern
+    return f"(?:{self.pattern})"
 
   def __repr__(self):
     return f"VarNode({repr(self.name)}, {repr(self.original)}, {repr(self.pattern)})"

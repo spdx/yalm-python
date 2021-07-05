@@ -2,6 +2,8 @@ from importlib import resources
 import json
 from yalm import resources as data
 from yalm.resources import words, template, regex
+from yalm.template import template
+import re
 
 class ResourceLoader:
   def __init__(self):
@@ -38,22 +40,23 @@ class ResourceLoader:
       self._index = json.loads(resources.read_text(data, 'licenses.json'))
     return self._index
 
-  def get_words(self, license):
+  def get_words(self, license) -> list[str]:
     if license not in self._words:
       self._words[license] = json.loads(resources.read_text(words, f"{license}.json"))
     return self._words[license]
 
-  def get_template(self, license):
+  def get_template(self, license) -> template.Node:
     if license not in self._template:
-      self._template[license] = json.loads(resources.read_text(template, f"{license}.json"))
+      data = json.loads(resources.read_text(template, f"{license}.json"))
+      self._template[license] = template.parse_json(data)
     return self._template[license]
 
-  def get_regex(self, license):
+  def get_regex(self, license) -> re.Pattern:
     if license not in self._regex:
-      self._regex[license] = resources.read_text(regex, license)
+      self._regex[license] = re.compile(resources.read_text(regex, license), re.IGNORECASE)
     return self._regex[license]
 
-  def get_positive_samples(self, license):
+  def get_positive_samples(self, license) -> list[str]:
     if license not in self._positive_samples:
       path = f"yalm.resources.tests.classfier.positive.{license}"
       results = []
@@ -64,7 +67,7 @@ class ResourceLoader:
       self._positive_samples[license] = results
     return self._positive_samples[license]
 
-  def clear(self):
+  def clear(self) -> None:
     self._meta = None
     self._equivalent_words = None
     self._expected_duplicates = None

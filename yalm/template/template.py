@@ -34,6 +34,15 @@ class SequentialNode(Node):
   def _is_empty(self) -> bool:
     return all(node._is_empty() for node in self.nodes)
 
+  def trim_spaces(self, leading=True, trailing=True) -> 'SequentialNode':
+    if self._is_empty():
+      return self
+    if leading and isinstance(self.nodes[0], TextNode):
+      self.nodes[0] = self.nodes[0].trim_spaces(leading=True, trailing=False)
+    if trailing and isinstance(self.nodes[-1], TextNode):
+      self.nodes[0] = self.nodes[0].trim_spaces(leading=False, trailing=True)
+    return self
+
   def simplify(self) -> Node:
     # Normalize
     self.nodes = [node.simplify() for node in self.nodes if not node._is_empty()]
@@ -54,6 +63,9 @@ class SequentialNode(Node):
       else:
         nodes_merged.append(node)
     self.nodes = nodes_merged
+    # If there is only one node, this node can be "unwrapped"
+    if len(self.nodes) == 1:
+      return self.nodes[0]
     return self
 
   def __str__(self):
@@ -79,6 +91,13 @@ class TextNode(Node):
 
   def _is_empty(self):
     return self.text == ''
+
+  def trim_spaces(self, leading=True, trailing=True) -> 'TextNode':
+    if leading:
+      self.text = self.text.lstrip()
+    if trailing:
+      self.text = self.text.rstrip()
+    return self
 
   def __str__(self):
     return re.escape(self.text)

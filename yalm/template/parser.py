@@ -103,9 +103,7 @@ class _XmlTransformer:
     if node.nodeType == xml.Node.TEXT_NODE:
       return self.transform_text_node(node)
     elif node.nodeType == xml.Node.ELEMENT_NODE:
-      return template.SequentialNode(*[
-        self.transform_node(child) for child in node.childNodes
-      ]).trim()
+      return template.SequentialNode(*[self.transform_node(child) for child in node.childNodes]).trim()
     else:
       raise NotImplementedError("Unsupported node type")
 
@@ -115,6 +113,7 @@ def parse_xml(text: xml.Element) -> template.Node:
   Parses a dom element in the spdx-license-XML format and returns a Node.
   """
   transformer = _XmlTransformer()
+  text.setAttribute('spacing', 'none')
   tree = transformer.transform_node(text)
   tree = tree.simplify()
   return tree

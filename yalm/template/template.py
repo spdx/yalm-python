@@ -1,6 +1,6 @@
 import re
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Optional
 
 
 class TemplateParseError(Exception):
@@ -19,6 +19,9 @@ class Node(ABC):
   def _is_empty(self) -> bool:
     return False
 
+  def trim(self, char: Optional[str] = None, l: bool = True, r: bool = True) -> 'Node':
+    return self
+
   def simplify(self) -> 'Node':
     return self
 
@@ -34,14 +37,18 @@ class SequentialNode(Node):
   def _is_empty(self) -> bool:
     return all(node._is_empty() for node in self.nodes)
 
-  def trim_spaces(self, leading=True, trailing=True) -> 'SequentialNode':
-    if self._is_empty():
-      return self
-    if leading and isinstance(self.nodes[0], TextNode):
-      self.nodes[0] = self.nodes[0].trim_spaces(leading=True, trailing=False)
-    if trailing and isinstance(self.nodes[-1], TextNode):
-      self.nodes[0] = self.nodes[0].trim_spaces(leading=False, trailing=True)
-    return self
+  def trim(self, char: Optional[str] = None, l: bool = True, r: bool = True) -> Node:
+    # first, we need to simplify to merge consecutive text nodes
+    t = self.simplify()
+    if not isinstance(t, SequentialNode):
+      return t.trim(char=char, l=l, r=r)
+    if t._is_empty():
+      return t
+    if isinstance(t.nodes[0], TextNode):
+      t.nodes[0] = t.nodes[0].trim(char=char, l=l, r=False)
+    if isinstance(t.nodes[-1], TextNode):
+      t.nodes[-1] = t.nodes[-1].trim(char=char, l=False, r=r)
+    return t
 
   def simplify(self) -> Node:
     # Normalize
@@ -92,11 +99,11 @@ class TextNode(Node):
   def _is_empty(self):
     return self.text == ''
 
-  def trim_spaces(self, leading=True, trailing=True) -> 'TextNode':
-    if leading:
-      self.text = self.text.lstrip()
-    if trailing:
-      self.text = self.text.rstrip()
+  def trim(self, char: Optional[str] = None, l: bool = True, r: bool = True) -> 'TextNode':
+    if l:
+      self.text = self.text.lstrip(char)
+    if r:
+      self.text = self.text.rstrip(char)
     return self
 
   def __str__(self):

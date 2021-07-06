@@ -106,6 +106,9 @@ class PunctuationNormalizer(Normalizer):
   """
   Replaces the common punctuations with ` to avoid errors.
   """
+  _pattern_period = re.compile(r'\.(?=[a-z])')
+  _pattern_comma = re.compile(r'\,(?=[a-z])')
+  _pattern_hyphen = re.compile(r'\-(?=[a-z])')
 
   def normalize_text(self, node: TextNode) -> Node:
     punctuations = ['/', '\'', '\"', '`']
@@ -115,10 +118,9 @@ class PunctuationNormalizer(Normalizer):
     for x in punctuations:
       node.text = node.text.replace(x, '`')
 
-    node.text = re.sub(r'\.(?=[a-z])', '.`', node.text)
-    node.text = re.sub(r'\,(?=[a-z])', ',`', node.text)
-    node.text = re.sub(r'\-(?=[a-z])', '-`', node.text)
-    node.text = '`' + node.text + '`'
+    node.text = self._pattern_period.sub('.`', node.text)
+    node.text = self._pattern_comma.sub(',`', node.text)
+    node.text = self._pattern_hyphen.sub('-`', node.text)
     return node
 
 

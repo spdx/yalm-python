@@ -62,7 +62,7 @@ class _XmlTransformer:
         results.append(self.transform_list_node(child))
       else:
         raise NotImplementedError("Unsupported node type")
-    return template.SequentialNode(*results).trim_spaces()
+    return template.SequentialNode(*results).trim()
 
   def transform_alt_node(self, node: xml.Element) -> template.Node:
     assert node.nodeType == xml.Node.ELEMENT_NODE
@@ -105,7 +105,7 @@ class _XmlTransformer:
     elif node.nodeType == xml.Node.ELEMENT_NODE:
       return template.SequentialNode(*[
         self.transform_node(child) for child in node.childNodes
-      ]).trim_spaces()
+      ]).trim()
     else:
       raise NotImplementedError("Unsupported node type")
 

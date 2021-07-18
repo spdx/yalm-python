@@ -1,6 +1,7 @@
 import os
 import re
 from .template import Node, SequentialNode, TextNode, OptionaltNode, VarNode
+import terregex
 
 
 class Normalizer:
@@ -46,8 +47,20 @@ class LowercaseNormalizer(Normalizer):
   Converts the string into lowercase.
   """
 
+  def __init__(self):
+    self.normalize_regex = terregex.Transformer()
+
+    @self.normalize_regex.add_rule()
+    def rule1(literal: terregex.Literal):
+      literal.string = literal.string.lower()
+
   def normalize_text(self, node: TextNode) -> Node:
     node.text = node.text.lower()
+    return node
+    return node
+
+  def normalize_var(self, node: VarNode):
+    node.pattern = self.normalize_regex(node.pattern)
     return node
 
 
@@ -138,9 +151,20 @@ class WhiteSpaceNormalizer(Normalizer):
   """
   _optional_space = OptionaltNode(TextNode('`'))
 
+  def __init__(self):
+    self.normalize_regex = terregex.Transformer()
+
+    @self.normalize_regex.add_rule()
+    def rule1(literal: terregex.Literal):
+      literal.string = literal.string.lower()
+
   def normalize_text(self, node: TextNode) -> Node:
     node.text = re.sub(r'\s+', '`', node.text)
     node.text = re.sub(r'\`+', '`', node.text)
+    return node
+
+  def normalize_var(self, node: VarNode):
+    node.pattern = self.normalize_regex(node.pattern)
     return node
 
   def normalize_optional(self, node: OptionaltNode) -> Node:

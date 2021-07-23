@@ -16,6 +16,9 @@ class ResourceLoader:
     self._regex = {}
     self._positive_samples = {}
 
+  def _escape_license_id(self, license: str) -> str:
+    return re.sub(r'\W', '_', license)
+
   @property
   def meta(self):
     if self._meta is None:
@@ -41,22 +44,26 @@ class ResourceLoader:
     return self._index
 
   def get_words(self, license) -> list[str]:
+    license = self._escape_license_id(license)
     if license not in self._words:
       self._words[license] = json.loads(resources.read_text(words, f"{license}.json"))
     return self._words[license]
 
   def get_template(self, license) -> template.Node:
+    license = self._escape_license_id(license)
     if license not in self._template:
       data = json.loads(resources.read_text(template, f"{license}.json"))
       self._template[license] = template.parse_json(data)
     return self._template[license]
 
   def get_regex(self, license) -> re.Pattern:
+    license = self._escape_license_id(license)
     if license not in self._regex:
       self._regex[license] = re.compile(resources.read_text(regex, license), re.IGNORECASE)
     return self._regex[license]
 
   def get_positive_samples(self, license) -> list[str]:
+    license = self._escape_license_id(license)
     if license not in self._positive_samples:
       path = f"yalm.resources.tests.classfier.positive.{license}"
       results = []

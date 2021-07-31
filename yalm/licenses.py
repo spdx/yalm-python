@@ -41,7 +41,7 @@ class LicenseMatch:
     self.template = template
 
 _resources = _ResourceLoader()
-_normalizer = _normalizer.TextNormalizer(_resources.equivalent_words)
+_normalizer = _normalizer.TemplateNormalizer(_resources.equivalent_words)
 spdx_licenses: list[SpdxLicense] = [SpdxLicense(item['id'], item['name'], item['priority'], _resources) for item in _resources.index]
 
 def _normalize_text(text: str) -> str:

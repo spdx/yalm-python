@@ -5,30 +5,42 @@ import terregex
 
 
 class Normalizer:
-  def __call__(self, node: Node) -> Node:
+  def __call__(self, node: Node, *, pred: Node = None, succ: Node = None, parent: Node = None) -> Node:
     if isinstance(node, SequentialNode):
-      return self.normalize_sequential(node)
+      return self.normalize_sequential(node, pred=pred, succ=succ, parent=parent)
     if isinstance(node, TextNode):
-      return self.normalize_text(node)
+      return self.normalize_text(node, pred=pred, succ=succ, parent=parent)
     if isinstance(node, OptionaltNode):
-      return self.normalize_optional(node)
+      return self.normalize_optional(node, pred=pred, succ=succ, parent=parent)
     if isinstance(node, VarNode):
-      return self.normalize_var(node)
+      return self.normalize_var(node, pred=pred, succ=succ, parent=parent)
     raise NotImplementedError("Unsupported node type")
 
-  def normalize_sequential(self, node: SequentialNode) -> Node:
-    node.nodes = [self(node) for node in node.nodes]
+  def normalize_sequential(self,
+                           node: SequentialNode,
+                           *,
+                           pred: Node = None,
+                           succ: Node = None,
+                           parent: Node = None) -> Node:
+    preds = [pred] + node.nodes[:-1]
+    succs = node.nodes[1:] + [succ]
+    node.nodes = [self(n, pred=p, succ=s, parent=node) for p, n, s in zip(preds, node.nodes, succs)]
+    return node.simplify()
+
+  def normalize_text(self, node: TextNode, *, pred: Node = None, succ: Node = None, parent: Node = None) -> Node:
     return node
 
-  def normalize_text(self, node: TextNode) -> Node:
+  def normalize_optional(self,
+                         node: OptionaltNode,
+                         *,
+                         pred: Node = None,
+                         succ: Node = None,
+                         parent: Node = None) -> Node:
+    node.content = self(node.content, pred=pred, succ=succ, parent=parent)
     return node
 
-  def normalize_optional(self, node: OptionaltNode) -> Node:
-    node.content = self(node.content)
-    return node
-
-  def normalize_var(self, node: VarNode) -> Node:
-    node.original = self(node.original)
+  def normalize_var(self, node: VarNode, *, pred: Node = None, succ: Node = None, parent: Node = None) -> Node:
+    node.original = self(node.original, pred=pred, succ=succ, parent=parent)
     return node
 
 
@@ -36,9 +48,9 @@ class SequentialNormalizer(Normalizer):
   def __init__(self, *normalizers: list[Normalizer]):
     self.normalizers = normalizers
 
-  def __call__(self, node: Node) -> Node:
+  def __call__(self, node: Node, *, pred: Node = None, succ: Node = None, parent: Node = None) -> Node:
     for normalizer in self.normalizers:
-      node = normalizer(node)
+      node = normalizer(node, pred=pred, succ=succ, parent=parent)
     return node
 
 
@@ -54,12 +66,11 @@ class LowercaseNormalizer(Normalizer):
     def rule1(literal: terregex.Literal):
       literal.string = literal.string.lower()
 
-  def normalize_text(self, node: TextNode) -> Node:
+  def normalize_text(self, node: TextNode, **_) -> Node:
     node.text = node.text.lower()
     return node
-    return node
 
-  def normalize_var(self, node: VarNode):
+  def normalize_var(self, node: VarNode, **_):
     node.pattern = self.normalize_regex(node.pattern)
     return node
 
@@ -73,7 +84,7 @@ class EquivalentWordsNormalizer(Normalizer):
   def __init__(self, equivalentwords) -> None:
     self.equivalentwords = equivalentwords
 
-  def normalize_text(self, node: TextNode) -> Node:
+  def normalize_text(self, node: TextNode, **_) -> Node:
     for rule in self.equivalentwords:
       node.text = node.text.replace(rule['from'], rule['to'])
     return node
@@ -85,7 +96,7 @@ class CopyrightSymbolNormalizer(Normalizer):
   of mismatch due to it.
   """
 
-  def normalize_text(self, node: TextNode) -> Node:
+  def normalize_text(self, node: TextNode, **_) -> Node:
     node.text = node.text.replace("copyright", '')
     node.text = node.text.replace('(c)', '')
     return node
@@ -100,7 +111,7 @@ class BulletsNumberingNormalizer(Normalizer):
   version. (1. ) will match while (1.) will not.
   """
 
-  def normalize_text(self, node: TextNode) -> Node:
+  def normalize_text(self, node: TextNode, **_) -> Node:
     regex_to_substitute = [
         r'([0-9]+\.){2,}',
         r'[0-9]+\.[\D]',
@@ -123,7 +134,7 @@ class PunctuationNormalizer(Normalizer):
   _pattern_comma = re.compile(r'\,(?=[a-z])')
   _pattern_hyphen = re.compile(r'\-(?=[a-z])')
 
-  def normalize_text(self, node: TextNode) -> Node:
+  def normalize_text(self, node: TextNode, **_) -> Node:
     punctuations = ['/', '\'', '\"', '`']
     node.text = node.text.replace('_', '-')
     node.text = node.text.replace('--', '-')
@@ -138,7 +149,7 @@ class PunctuationNormalizer(Normalizer):
 
 
 class LicenseTitleNormalizer(Normalizer):
-  def normalize_text(self, node: TextNode) -> Node:
+  def normalize_text(self, node: TextNode, **_) -> Node:
     node.text = node.text.replace('end of terms and conditions', '')
     return node
 
@@ -156,21 +167,25 @@ class WhiteSpaceNormalizer(Normalizer):
 
     @self.normalize_regex.add_rule()
     def rule1(literal: terregex.Literal):
-      literal.string = literal.string.lower()
+      literal.string = literal.string.replace(' ', '`')
 
-  def normalize_text(self, node: TextNode) -> Node:
+  def normalize_text(self, node: TextNode, *, pred: Node = None, succ: Node = None, **_) -> Node:
+    if isinstance(pred, OptionaltNode):
+      node.trim(r=False)
+    if isinstance(succ, OptionaltNode):
+      node.trim(l=False)
     node.text = re.sub(r'\s+', '`', node.text)
     node.text = re.sub(r'\`+', '`', node.text)
     return node
 
-  def normalize_var(self, node: VarNode):
-    node.pattern = self.normalize_regex(node.pattern)
-    return node
-
-  def normalize_optional(self, node: OptionaltNode) -> Node:
+  def normalize_optional(self, node: OptionaltNode, **_) -> Node:
     node.content = node.content.trim()
     node.content = self(node.content)
     return SequentialNode(self._optional_space, node, self._optional_space)
+
+  def normalize_var(self, node: VarNode, **_):
+    node.pattern = self.normalize_regex(node.pattern)
+    return node
 
 
 class Trimmer(Normalizer):
@@ -183,7 +198,7 @@ class Trimmer(Normalizer):
     self.l = l
     self.r = r
 
-  def __call__(self, node: Node) -> Node:
+  def __call__(self, node: Node, **_) -> Node:
     return node.trim(char=self.char, l=self.l, r=self.r)
 
 
@@ -192,7 +207,7 @@ class TemplateSimplifier(Normalizer):
   Structure of a template is simplified as much as possible.
   """
 
-  def __call__(self, node: Node) -> Node:
+  def __call__(self, node: Node, **_) -> Node:
     return node.simplify()
 
 

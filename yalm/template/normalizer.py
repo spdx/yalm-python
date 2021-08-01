@@ -1,6 +1,6 @@
 import os
 import re
-from .template import Node, SequentialNode, TextNode, OptionaltNode, VarNode
+from .template import Node, SequentialNode, TextNode, OptionalNode, VarNode
 import terregex
 
 
@@ -10,7 +10,7 @@ class Normalizer:
       return self.normalize_sequential(node, pred=pred, succ=succ, parent=parent)
     if isinstance(node, TextNode):
       return self.normalize_text(node, pred=pred, succ=succ, parent=parent)
-    if isinstance(node, OptionaltNode):
+    if isinstance(node, OptionalNode):
       return self.normalize_optional(node, pred=pred, succ=succ, parent=parent)
     if isinstance(node, VarNode):
       return self.normalize_var(node, pred=pred, succ=succ, parent=parent)
@@ -31,7 +31,7 @@ class Normalizer:
     return node
 
   def normalize_optional(self,
-                         node: OptionaltNode,
+                         node: OptionalNode,
                          *,
                          pred: Node = None,
                          succ: Node = None,
@@ -160,7 +160,7 @@ class WhiteSpaceNormalizer(Normalizer):
   this function the input file just becomes a single long
   string which is easier to match.
   """
-  _optional_space = OptionaltNode(TextNode('`'))
+  _optional_space = OptionalNode(TextNode('`'))
 
   def __init__(self):
     self.normalize_regex = terregex.Transformer()
@@ -170,15 +170,15 @@ class WhiteSpaceNormalizer(Normalizer):
       literal.string = literal.string.replace(' ', '`')
 
   def normalize_text(self, node: TextNode, *, pred: Node = None, succ: Node = None, **_) -> Node:
-    if isinstance(pred, OptionaltNode):
+    if isinstance(pred, OptionalNode):
       node.trim(r=False)
-    if isinstance(succ, OptionaltNode):
+    if isinstance(succ, OptionalNode):
       node.trim(l=False)
     node.text = re.sub(r'\s+', '`', node.text)
     node.text = re.sub(r'\`+', '`', node.text)
     return node
 
-  def normalize_optional(self, node: OptionaltNode, **_) -> Node:
+  def normalize_optional(self, node: OptionalNode, **_) -> Node:
     node.content = node.content.trim()
     node.content = self(node.content)
     return SequentialNode(self._optional_space, node, self._optional_space)

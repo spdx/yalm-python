@@ -113,7 +113,7 @@ class TextNode(Node):
     return f"TextNode({repr(self.text)})"
 
 
-class OptionaltNode(Node):
+class OptionalNode(Node):
   def __init__(self, content: Node):
     super().__init__('optional')
     self.content = content
@@ -175,7 +175,7 @@ def parse_json(node: Any) -> Node:
     return TextNode(node['content'])
   elif node['type'] == 'optional':
     content = parse_json(node['content'])
-    return OptionaltNode(content)
+    return OptionalNode(content)
   elif node['type'] == 'var':
     name = node['name']
     content = parse_json(node['content'])

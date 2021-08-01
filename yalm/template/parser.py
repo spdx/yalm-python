@@ -74,7 +74,7 @@ class _XmlTransformer:
   def transform_optional_node(self, node: xml.Element) -> template.Node:
     assert node.nodeType == xml.Node.ELEMENT_NODE
     contents = self.transform_unprocessed(node)
-    return template.OptionaltNode(contents)
+    return template.OptionalNode(contents)
 
   def transform_break_node(self, node: xml.Element) -> template.Node:
     assert node.nodeType == xml.Node.ELEMENT_NODE

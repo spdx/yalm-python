@@ -1,0 +1,4 @@
+[submodule "yalm/resources"]
+	path = yalm/resources
+	url = https://github.com/m1kit/yalm-resources.git
+	branch = dist

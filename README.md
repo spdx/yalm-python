@@ -1,13 +1,13 @@
 # SPDX YALM: Yet Another License Matcher
 SPDX YALM is a license matching library based on the SPDX License Matching Guideline.
 
-# Features
+## Features
 *    An Interface which compares text against a license template using the license matching guidelines.
 *    An Interface which returns all matching SPDX listed license ID's for any license text.
 *    An interface which compares 2 license texts and returns a boolean indicating if the 2 licenses match per the license matching guidelines.
 *    When there is no match, a return value is provided to describe where and why the license does not match.
 
-# Installation
+## Installation
 Ensure you have installed Python 3.9 or higher.
 
 You can install this library via [PyPI](https://pypi.org/project/yalm/).

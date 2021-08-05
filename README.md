@@ -1,5 +1,9 @@
 # SPDX YALM: Yet Another License Matcher
-SPDX YALM is a license matching library based on the SPDX License Matching Guideline.
+SPDX YALM is a license matching library based on [the SPDX License Matching Guideline](https://spdx.dev/license-list/matching-guidelines/).
+
+SPDX is an open standard for communicating software bill of material information. SPDX reduces redundant work by providing common formats for organizations and communities to share important data, thereby streamlining and improving compliance, security, and dependability.
+
+Project YALM is implemented as the matching guideline compliant library - this library provides a way to compare license documents and templates in a standardized way.
 
 ## Features
 *    An Interface which compares text against a license template using the license matching guidelines.

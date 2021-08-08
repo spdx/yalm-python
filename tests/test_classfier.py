@@ -1,6 +1,9 @@
-def inc(x):
-    return x + 2
+import yalm
+import pytest
 
 
-def test_answer():
-    assert inc(3) == 5
+@pytest.mark.parametrize(
+    'license_id', list(map(lambda x: x.id, yalm.spdx_licenses))
+)
+def test_classfier_positive(license_id):
+    assert license_id != 'MIT'

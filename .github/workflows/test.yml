@@ -49,5 +49,4 @@ jobs:
       - name: Run tests
         run: |
           source .venv/bin/activate
-          pytest tests/
-          coverage report
+          coverage run -m pytest

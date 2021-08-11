@@ -5,6 +5,18 @@ from yalm.resources import words, template, regex
 from yalm.template import template
 import re
 
+class KeyedDocument:
+  def __init__(self, key: str, document: str):
+    self.key = key
+    self.document = document
+
+  def __repr__(self) -> str:
+    return repr(self.document)
+
+  def __str__(self) -> str:
+    return str(self.document)
+
+
 class ResourceLoader:
   def __init__(self):
     self._meta = None
@@ -62,17 +74,24 @@ class ResourceLoader:
       self._regex[license] = re.compile(resources.read_text(regex, license), re.IGNORECASE)
     return self._regex[license]
 
-  def get_positive_samples(self, license) -> list[str]:
+  def get_positive_sample(self, license, key) -> KeyedDocument:
+    # ensure the sample is loaded
+    self.get_positive_samples(license)
+    license = self._escape_license_id(license)
+    return self._positive_samples[license][key]
+
+  def get_positive_samples(self, license) -> list[KeyedDocument]:
     license = self._escape_license_id(license)
     if license not in self._positive_samples:
       path = f"yalm.resources.tests.classfier.positive.{license}"
-      results = []
+      results = {}
       for item in resources.contents(path):
         if not item.endswith('.txt'):
           continue
-        results.append(resources.read_text(path, item))
+        value = resources.read_text(path, item)
+        results[item] = KeyedDocument(item, value)
       self._positive_samples[license] = results
-    return self._positive_samples[license]
+    return list(self._positive_samples[license].values())
 
   def clear(self) -> None:
     self._meta = None

@@ -1,5 +1,6 @@
 from yalm._resources import ResourceLoader as _ResourceLoader, \
-  KeyedDocument as _KeyedDocument
+    KeyedDocument as _KeyedDocument
+from yalm._worker import SyncWorker as _SyncWorker, AsyncWorker as _AsyncWorker
 
 from yalm.template.template import Node as _Node
 import re as _re
@@ -58,10 +59,23 @@ spdx_licenses: _OrderedDict[str, SpdxLicense] = {
 def _normalize_text(text: str) -> str:
   return _normalizer(_template.TextNode(text)).text
 
-def detect_license(text: str) -> LicenseMatch:
+def _do_regex_test(text: str, normalized_text: str, license_id: str):
+  license = spdx_licenses[license_id]
+  if license._test_regex(normalized_text):
+    return LicenseMatch(text, license)
+
+def detect_license(text: str, timeout: float = 2, num_workers: int = None, best_guess=True) -> LicenseMatch:
   words = _split_and_normalize(text, _resources.equivalent_words, sort=True)
   normalized_text = _normalize_text(text)
-  for license in spdx_licenses.values():
-    if license._test_words(words, words_sorted=True) and license._test_regex(normalized_text):
-      return LicenseMatch(text, license)
-  return None
+
+  if timeout is None and num_workers == 1:
+    worker_raw = _SyncWorker(early_return=best_guess)
+  else:
+    worker_raw = _AsyncWorker(early_return=best_guess, num_workers=num_workers, timeout=timeout)
+
+  with worker_raw as worker:
+    for license in spdx_licenses.values():
+      if license._test_words(words, words_sorted=True):
+        # request the worker pool to process regex matching
+        worker.request_process(_do_regex_test, text, normalized_text, license.id)
+    return worker.get_results()

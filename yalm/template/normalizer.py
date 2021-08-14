@@ -211,6 +211,30 @@ class TemplateSimplifier(Normalizer):
     return node.simplify()
 
 
+class RegexRepeatLimit(Normalizer):
+  """
+  Limit maximum repetiton number of regexes in var tags
+  """
+
+  def __init__(self, max_repeat):
+    self.max_repeat = max_repeat
+    self.normalize_regex = terregex.Transformer()
+
+    @self.normalize_regex.add_rule()
+    def transform_min_repeat(literal: terregex.MinRepeat):
+      if literal.max is None or literal.max > self.max_repeat:
+        literal.max = self.max_repeat
+
+    @self.normalize_regex.add_rule()
+    def transform_max_repeat(literal: terregex.MaxRepeat):
+      if literal.max is None or literal.max > self.max_repeat:
+        literal.max = self.max_repeat
+
+  def normalize_var(self, node: VarNode, **_):
+    node.pattern = self.normalize_regex(node.pattern)
+    return node
+  
+
 class TextNormalizer(SequentialNormalizer):
   def __init__(self, equivalentwords=[]) -> None:
     super().__init__(
@@ -222,6 +246,8 @@ class TextNormalizer(SequentialNormalizer):
         LicenseTitleNormalizer(),
         WhiteSpaceNormalizer(),
         Trimmer(char='`'),
+        RegexRepeatLimit(500),
+        TemplateSimplifier(),
     )
 
 
@@ -233,5 +259,6 @@ class TemplateNormalizer(SequentialNormalizer):
         PunctuationNormalizer(),
         WhiteSpaceNormalizer(),
         Trimmer(char='`'),
+        RegexRepeatLimit(500),
         TemplateSimplifier(),
     )

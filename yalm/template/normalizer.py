@@ -170,7 +170,7 @@ class WhiteSpaceNormalizer(Normalizer):
       literal.string = literal.string.replace(' ', '`')
 
   def normalize_text(self, node: TextNode, *, pred: Node = None, succ: Node = None, **_) -> Node:
-    if isinstance(pred, OptionalNode) or isinstance(succ, VarNode):
+    if isinstance(pred, OptionalNode) or isinstance(pred, VarNode):
       node.trim(r=False)
     if isinstance(succ, OptionalNode) or isinstance(succ, VarNode):
       node.trim(l=False)

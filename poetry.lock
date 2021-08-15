@@ -116,7 +116,7 @@ python-versions = "*"
 
 [[package]]
 name = "terregex"
-version = "0.0.5"
+version = "0.0.6"
 description = "Regex transformation library"
 category = "main"
 optional = false
@@ -133,7 +133,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "32c02b74a6d0359568406ac5bb2e543c14bd2af936b10aa56c2339d8e0333a70"
+content-hash = "c2dadb3549a02c613263960fe5f91d4b61f377b6a12c6d78ed721c21cf0c543e"
 
 [metadata.files]
 atomicwrites = [
@@ -262,8 +262,8 @@ regex = [
     {file = "regex-2021.8.3.tar.gz", hash = "sha256:8935937dad2c9b369c3d932b0edbc52a62647c2afb2fafc0c280f14a8bf56a6a"},
 ]
 terregex = [
-    {file = "terregex-0.0.5-py3-none-any.whl", hash = "sha256:ed3eec1782434f3467590be50255dce311570e5396fc3e78225c6c0d65270841"},
-    {file = "terregex-0.0.5.tar.gz", hash = "sha256:601b17f964a7b559719989c5902b590a9fde0909be8e39fc160d4efc2ecdd4d4"},
+    {file = "terregex-0.0.6-py3-none-any.whl", hash = "sha256:16f25333ea3752dcc072527adb1fd1838af550a38a25c2d0b1f05f8a0b1a2c1b"},
+    {file = "terregex-0.0.6.tar.gz", hash = "sha256:e8f19b5d3e870db833254c0d3c69d482fb300421a66fb6ce4a87eb4f67633ae4"},
 ]
 toml = [
     {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},

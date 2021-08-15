@@ -3,7 +3,7 @@ import json
 from yalm import resources as data
 from yalm.resources import words, template, regex
 from yalm.template import template
-import re
+import regex as re
 
 class KeyedDocument:
   def __init__(self, key: str, document: str):

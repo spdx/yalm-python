@@ -67,8 +67,11 @@ def _normalize_text(text: str) -> str:
 
 def _do_regex_test(text: str, normalized_text: str, license_id: str, timeout: float):
   license = spdx_licenses[license_id]
-  if license._test_regex(normalized_text, timeout=timeout):
-    return LicenseMatch(text, license)
+  try:
+    if license._test_regex(normalized_text, timeout=timeout):
+      return LicenseMatch(text, license)
+  except TimeoutError:
+    return None
 
 def detect_license(text: str, timeout: float = 2, num_workers: int = 1, best_guess=True) -> LicenseMatch:
   words = _split_and_normalize(text, _resources.equivalent_words, sort=True)

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "yalm"
-version = "0.0.1.a3"
+version = "0.0.2.a7"
 description = "SPDX YALM is a license matching library based on the SPDX License Matching Guideline."
 readme = "README.md"
 authors = [
@@ -24,7 +24,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-terregex = "^0.0.5"
+terregex = "~=0.0.5"
 regex = "^2021.8.3"
 
 [tool.poetry.dev-dependencies]

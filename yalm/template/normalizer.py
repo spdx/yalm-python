@@ -170,9 +170,9 @@ class WhiteSpaceNormalizer(Normalizer):
       literal.string = literal.string.replace(' ', '`')
 
   def normalize_text(self, node: TextNode, *, pred: Node = None, succ: Node = None, **_) -> Node:
-    if isinstance(pred, OptionalNode):
+    if isinstance(pred, OptionalNode) or isinstance(pred, VarNode):
       node.trim(r=False)
-    if isinstance(succ, OptionalNode):
+    if isinstance(succ, OptionalNode) or isinstance(succ, VarNode):
       node.trim(l=False)
     node.text = re.sub(r'\s+', '`', node.text)
     node.text = re.sub(r'\`+', '`', node.text)
@@ -185,7 +185,7 @@ class WhiteSpaceNormalizer(Normalizer):
 
   def normalize_var(self, node: VarNode, **_):
     node.pattern = self.normalize_regex(node.pattern)
-    return node
+    return SequentialNode(self._optional_space, node, self._optional_space)
 
 
 class Trimmer(Normalizer):

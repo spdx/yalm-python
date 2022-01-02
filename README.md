@@ -19,6 +19,14 @@ You can install this library via [PyPI](https://pypi.org/project/yalm/).
 pip install yalm
 ```
 
+## Example Code
+```
+import yaml
+
+license_text = "The text of the license here."
+yalm.detect_license(license_text)
+```
+
 ## License
 Copyright (c) 2021, SPDX YALM Developers.
 Files in this repository are licensed under

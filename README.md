@@ -21,7 +21,7 @@ pip install yalm
 
 ## Example Code
 ```
-import yaml
+import yalm
 
 license_text = "The text of the license here."
 yalm.detect_license(license_text)
